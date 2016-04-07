@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/migrations/versions/544124fa687_添加问题属性_post.py" charset="UTF-8" />
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/app/auth/__init__.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/auth/forms.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/auth/views.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/email.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/auth/email/confirm.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/auth/email/confirm.txt" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

@@ -16,8 +16,8 @@ class Config:
     MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
-    FLASKY_MAIL_SENDER = 'Flasky Admin <347832757@qq.com>'
+    FLASKY_MAIL_SUBJECT_PREFIX = '[知乎fake]'
+    FLASKY_MAIL_SENDER = '知乎fake <347832757@qq.com>'
     FLASKY_ADMIN = '347832757@qq.com'
 
     FLASKY_POSTS_PER_PAGE = 1
