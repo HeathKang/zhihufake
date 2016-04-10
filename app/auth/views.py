@@ -17,8 +17,8 @@ def register():
         user = User(email=form.email.data,
                     username=form.username.data,
                     password=form.password.data)
-        #db.session.add(user)
-        #db.session.commit()
+        db.session.add(user)
+        db.session.commit()
         token = user.generate_confirmation_token()
         email_title =  user.username
         send_email(user.email,email_title,
