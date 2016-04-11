@@ -8,4 +8,8 @@ from wtforms.validators import Required,Length,Email,Regexp
 
 class PostForm(Form):
     body = PageDownField('问题：',validators=[Required()])
-    submit = SubmitField('submit')
+    submit = SubmitField('提交')
+
+class AnswerForm(Form):
+    body = PageDownField('',validators=[Required()])
+    submit = SubmitField('提交')

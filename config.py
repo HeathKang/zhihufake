@@ -20,7 +20,8 @@ class Config:
     FLASKY_MAIL_SENDER = '知乎fake <347832757@qq.com>'
     FLASKY_ADMIN = '347832757@qq.com'
 
-    FLASKY_POSTS_PER_PAGE = 1
+    FLASKY_POSTS_PER_PAGE = 2
+    FLASKY_ANSWERS_PER_PAGE = 2
 
     @staticmethod
     def init_app(app):

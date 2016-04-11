@@ -3,7 +3,7 @@
 import hashlib
 from flask import request,current_app
 from . import db,login_manager
-from flask.ext.login import UserMixin
+from flask.ext.login import UserMixin,AnonymousUserMixin
 from werkzeug.security import generate_password_hash,check_password_hash
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -62,6 +62,8 @@ class Post(db.Model):
     author_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     body_html = db.Column(db.Text)
 
+    answers = db.relationship('Answer',backref='post',lazy='dynamic')
+
     @staticmethod
     def on_changed_body(target,value,oldvalue,initiator):
         allowed_tags = ['a','abbr','acronym','b','blockquote','code','em',
@@ -70,6 +72,31 @@ class Post(db.Model):
                                                        tags=allowed_tags,strip=True))
 
 db.event.listen(Post.body,'set',Post.on_changed_body)
+
+class Answer(db.Model):
+    __tablename__ = 'answers'
+    id = db.Column(db.Integer,primary_key=True)
+    body = db.Column(db.Text)
+    body_html = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime,index=True,default=datetime.utcnow)
+    disabled = db.Column(db.Boolean)
+    author_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
+    agree = db.Column(db.Integer,default=0)
+    disagree = db.Column(db.Integer,default=0)
+
+    @staticmethod
+    def on_changed_body(target,value,oldvalue,initiator):
+        allowed_tags = ['a','abbr','acronym','b','blockquote','code','em',
+                        'i','li','ol','pre','strong','ul','h1','h2','h3','p']
+        target.body_html = bleach.linkify(bleach.clean(
+            markdown(value,output_format='html'),
+            tags=allowed_tags,strip=True))
+
+db.event.listen(Answer.body,'set',Answer.on_changed_body)
+
+
+
 
 
 class User(UserMixin,db.Model):
@@ -81,6 +108,7 @@ class User(UserMixin,db.Model):
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean,default=False)
     posts = db.relationship('Post',backref='author',lazy='dynamic')
+    answers = db.relationship('Answer',backref='author',lazy='dynamic')
 
     @property
     def password(self):
@@ -110,7 +138,20 @@ class User(UserMixin,db.Model):
         db.session.commit()
         return True
 
+    def can(self, permissions):
+        return self.role is not None and \
+               (self.role.permissions & permissions) == permissions
 
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self,permissions):
+        return False
+
+    def is_administrator(self):
+        return False
+
+
+login_manager.anonymous_user = AnonymousUser
 
 
 @login_manager.user_loader
