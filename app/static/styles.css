@@ -1,0 +1,36 @@
+
+.navbar {
+    background: linear-gradient(to bottom,#086ed5,#055db5);
+    border-bottom: 1px solid #044e97;
+    box-shadow: 0 1px 2px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.input-group{
+    width: 367px;
+}
+.navbar-inverse .navbar-brand ,
+.navbar-nav{
+    color:#fff;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color:#999;
+}
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li .selected,
+ {
+    color:#fff;
+}
+.add-question {
+    float:left;
+    height:38px;
+    margin-top: 6px;
+    border: 1px solid #045bb2;
+    background: linear-gradient(to bottom,#0e7bef,#0d73da);
+    color:#fff;
+}
+div.pagination {
+     width: 100%;
+     text-align: left;
+     padding: 0px;
+     margin-left: 20%;
+ }

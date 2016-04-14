@@ -78,9 +78,5 @@ venv
 .env
 #Necessary folder
 
-templates
-
-static
-
 pyfile
 .idea
