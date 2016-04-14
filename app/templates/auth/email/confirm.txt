@@ -1,0 +1,13 @@
+
+亲爱的，{{ user.username }},
+
+欢迎来到知乎fake!
+
+为了确认您的帐号，请点击链接:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+祝您玩的开心！
+
+Heath Kang
+

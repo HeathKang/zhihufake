@@ -1,0 +1,10 @@
+<meta http-equiv="Content-Type"content="text/html; charset=UTF-8">
+<content>
+<p>亲爱的， {{ user.username }},</p>
+<p>欢迎来到 <b>知乎fake</b>!</p>
+<p>为了确认您的帐户 <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">请点击这里</a>.</p>
+<p>您也可以复制以下链接到您的浏览器地址栏手动打开:</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
+<p>祝您玩的开心,</p>
+<p>Heath Kang</p>
+</content>
