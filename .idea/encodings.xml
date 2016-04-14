@@ -5,8 +5,17 @@
     <file url="file://$PROJECT_DIR$/app/auth/forms.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/auth/views.py" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/email.py" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/_answers.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/_macros.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/_posts.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/auth/confirm.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/auth/email/confirm.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/templates/auth/email/confirm.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/auth/login.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/auth/register.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/base.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/index.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/templates/post.html" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
