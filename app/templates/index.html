@@ -1,3 +1,4 @@
+<meta charset="UTF-8">
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
@@ -6,7 +7,9 @@
 
 {% block page_content %}
 <div>
+	{% if current_user.can(Permission.WRITE_ARTICLES)%}
 	{{ wtf.quick_form(form) }}
+	{% endif %}
 </div>
     {% include '_posts.html' %}
 {% if pagination %}

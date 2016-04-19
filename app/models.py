@@ -1,5 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 import hashlib
 from flask import request,current_app
 from . import db,login_manager
@@ -109,6 +112,14 @@ class User(UserMixin,db.Model):
     confirmed = db.Column(db.Boolean,default=False)
     posts = db.relationship('Post',backref='author',lazy='dynamic')
     answers = db.relationship('Answer',backref='author',lazy='dynamic')
+
+    def __init__(self,**kwargs):
+        super(User,self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['FLASKY_ADMIN']:
+                self.role = Role.query.filter_by(permission=oxff).first()#赋予管理员角色
+            if self.role is None:
+                self.role = Role.query.filter_by(default=True).first() #赋予默认角色
 
     @property
     def password(self):

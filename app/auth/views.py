@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from flask import render_template,redirect,url_for,request,flash
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
+from flask import render_template,redirect,url_for,request,flash
 from . import auth
 from .. import db
 from ..models import User

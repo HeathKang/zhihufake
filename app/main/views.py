@@ -1,5 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 from flask import render_template,abort,redirect,url_for,flash,request,current_app,make_response
 from flask.ext.login import login_required,current_user
 from . import main
@@ -15,6 +19,7 @@ def index():
         post = Post(body=form.body.data,
                     author=current_user._get_current_object())
         db.session.add(post)
+        db.session.commit()
         return redirect(url_for('.index'))##指向哪里的页面
     page = request.args.get('page',1,type=int)
     ##all（）换成paginate（）显示每页的数据

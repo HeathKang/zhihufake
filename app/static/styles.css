@@ -28,6 +28,13 @@
     background: linear-gradient(to bottom,#0e7bef,#0d73da);
     color:#fff;
 }
+ul.posts {
+    list-style-type: none;
+    padding: 0px;
+    margin: 16px 0px 0px 0px;
+    border-top: 1px solid #e0e0e0;
+}
+
 div.pagination {
      width: 100%;
      text-align: left;
