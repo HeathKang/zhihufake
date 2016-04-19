@@ -21,7 +21,7 @@ class LoginForm(Form):
 class RegistrationForm(Form):
     email = StringField('邮箱：',validators=[Required(),Length(1,64),Email()])
     username = StringField('姓名：',validators=[Required(),Length(1,64),
-            Regexp('^[\u4e00-\u9fa5_A-Za-z0-9]{1,14}$',0,'用户名只能包含汉字、字母、数字和下划线')])
+            Regexp(u"^[\u4e00-\u9fa5_A-Za-z0-9]{1,14}$",0,'用户名只能包含汉字、字母、数字和下划线')])
     password = PasswordField('密码：',validators=[Required(),EqualTo('password2',message='两次密码输入不一致')])
     password2 = PasswordField('确认密码：',validators=[Required()])
     submit = SubmitField('注册')

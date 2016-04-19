@@ -6,28 +6,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="04d42d9e-1549-4428-92c4-84032605f1aa" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/__init__.py" afterPath="$PROJECT_DIR$/app/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/auth/__init__.py" afterPath="$PROJECT_DIR$/app/auth/__init__.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/auth/forms.py" afterPath="$PROJECT_DIR$/app/auth/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/auth/views.py" afterPath="$PROJECT_DIR$/app/auth/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/email.py" afterPath="$PROJECT_DIR$/app/email.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/main/__init__.py" afterPath="$PROJECT_DIR$/app/main/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/main/errors.py" afterPath="$PROJECT_DIR$/app/main/errors.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/main/forms.py" afterPath="$PROJECT_DIR$/app/main/forms.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/main/views.py" afterPath="$PROJECT_DIR$/app/main/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models.py" afterPath="$PROJECT_DIR$/app/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/static/styles.css" afterPath="$PROJECT_DIR$/app/static/styles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/_answers.html" afterPath="$PROJECT_DIR$/app/templates/_answers.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/_macros.html" afterPath="$PROJECT_DIR$/app/templates/_macros.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/_posts.html" afterPath="$PROJECT_DIR$/app/templates/_posts.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/auth/login.html" afterPath="$PROJECT_DIR$/app/templates/auth/login.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/auth/register.html" afterPath="$PROJECT_DIR$/app/templates/auth/register.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/base.html" afterPath="$PROJECT_DIR$/app/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/index.html" afterPath="$PROJECT_DIR$/app/templates/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/post.html" afterPath="$PROJECT_DIR$/app/templates/post.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.py" afterPath="$PROJECT_DIR$/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manage.py" afterPath="$PROJECT_DIR$/manage.py" />
     </list>
     <ignored path="zhihufake.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -58,31 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="styles.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="styles.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/static/styles.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="425">
               <caret line="30" column="10" selection-start-line="30" selection-start-column="10" selection-end-line="30" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/main/forms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/main/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -121,7 +83,7 @@
       <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
+            <state relative-caret-position="665">
               <caret line="45" column="14" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
               <folding />
             </state>
@@ -131,8 +93,28 @@
       <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/auth/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+            <state relative-caret-position="409">
+              <caret line="29" column="58" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="499">
+              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="register.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/templates/auth/register.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -141,8 +123,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/auth/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
+            <state relative-caret-position="240">
+              <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -168,12 +150,10 @@
         <option value="$PROJECT_DIR$/migrations/versions/544124fa687_添加问题属性_post.py" />
         <option value="$PROJECT_DIR$/app/templates/auth/confirm.html" />
         <option value="$PROJECT_DIR$/app/templates/auth/email/confirm.txt" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/app/templates/auth/email/confirm.html" />
         <option value="$PROJECT_DIR$/app/templates/post.html" />
         <option value="$PROJECT_DIR$/app/templates/_macros.html" />
         <option value="$PROJECT_DIR$/app/templates/_answers.html" />
-        <option value="$PROJECT_DIR$/app/templates/auth/register.html" />
         <option value="$PROJECT_DIR$/venv/lib/python2.7/site-packages/flask_bootstrap/templates/bootstrap/base.html" />
         <option value="$PROJECT_DIR$/app/templates/auth/login.html" />
         <option value="$PROJECT_DIR$/app/templates/base.html" />
@@ -186,12 +166,14 @@
         <option value="$PROJECT_DIR$/app/main/errors.py" />
         <option value="$PROJECT_DIR$/app/main/forms.py" />
         <option value="$PROJECT_DIR$/app/auth/__init__.py" />
-        <option value="$PROJECT_DIR$/app/auth/forms.py" />
         <option value="$PROJECT_DIR$/app/auth/views.py" />
         <option value="$PROJECT_DIR$/app/main/views.py" />
         <option value="$PROJECT_DIR$/app/templates/index.html" />
         <option value="$PROJECT_DIR$/app/models.py" />
         <option value="$PROJECT_DIR$/app/static/styles.css" />
+        <option value="$PROJECT_DIR$/app/templates/auth/register.html" />
+        <option value="$PROJECT_DIR$/app/auth/forms.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -226,8 +208,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -275,6 +257,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zhihufake" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="zhihufake" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auth" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -524,7 +528,7 @@
     <frame x="65" y="24" width="1651" height="804" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13264687" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13204119" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32922733" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -687,13 +691,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="78" column="17" selection-start-line="78" selection-start-column="17" selection-end-line="78" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/flask_bootstrap/templates/bootstrap/wtf.html" />
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/flask_bootstrap/templates/bootstrap/google.html" />
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/flask_bootstrap/templates/bootstrap/fixes.html" />
@@ -709,13 +706,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="22" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/auth/register.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -796,30 +786,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="45" column="14" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/auth/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/auth/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/main/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -872,6 +838,46 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="30" column="10" selection-start-line="30" selection-start-column="10" selection-end-line="30" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="665">
+          <caret line="45" column="14" selection-start-line="45" selection-start-column="14" selection-end-line="45" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/auth/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="24" column="50" selection-start-line="24" selection-start-column="50" selection-end-line="24" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/auth/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="409">
+          <caret line="29" column="58" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="499">
+          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/auth/register.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
