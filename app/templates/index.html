@@ -6,10 +6,8 @@
 {% block title %}知乎fake{% endblock %}
 
 {% block page_content %}
-<div>
-	{% if current_user.can(Permission.WRITE_ARTICLES)%}
-	{{ wtf.quick_form(form) }}
-	{% endif %}
+<div class="top-title-left">
+	<span class="glyphicon glyphicon-list-alt"></span>最新动态
 </div>
     {% include '_posts.html' %}
 {% if pagination %}

@@ -26,6 +26,7 @@ class Config:
 
     FLASKY_POSTS_PER_PAGE = 2
     FLASKY_ANSWERS_PER_PAGE = 2
+    WTF_CSRF_ENABLED = False
 
     @staticmethod
     def init_app(app):

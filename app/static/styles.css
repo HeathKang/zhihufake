@@ -28,11 +28,22 @@
     background: linear-gradient(to bottom,#0e7bef,#0d73da);
     color:#fff;
 }
+.top-title-left {
+    font-size: 14px;
+    color: #666;
+    font-weight: 700;
+}
+.glyphicon-list-alt {
+    width: 16px;
+    height: 16px;
+    vertical-align: -4px;
+    margin-right: 5px;
+    background-position: -71px -88px;
+}
 ul.posts {
     list-style-type: none;
     padding: 0px;
     margin: 16px 0px 0px 0px;
-    border-top: 1px solid #e0e0e0;
 }
 
 div.pagination {
@@ -41,3 +52,52 @@ div.pagination {
      padding: 0px;
      margin-left: 20%;
  }
+
+li.post{
+    width:800px;
+    padding: 10px 0;
+    position: relative;
+    margin-left: 0;
+    outline: 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+div.profile-thumbnail{
+    position:absolute;
+    display: block;
+    width: 38px;
+    height: 38px;
+ }
+div.post-content{
+    margin-left: 48px;
+    min-height: 48px;
+    position:relative;
+    float:top;
+
+}
+div.post-author {
+    position: relative;
+    font-weight: bold;
+    float:left;
+    color: #BBB;
+}
+div.post-author a {
+    color:#666;
+}
+
+
+div.divider{
+    font-size: 12px;
+    margin-left:2px;
+    margin-right:2px;
+    float:left;
+    color: #BBB;
+}
+div.post-date{
+    color: #BBB;
+}
+
+div.post-body a {
+    color:#259;
+    text-decoration: none;
+}

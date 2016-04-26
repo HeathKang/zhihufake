@@ -14,13 +14,13 @@ from .. import db
 
 @main.route('/',methods=['GET','POST'])
 def index():
-    form = PostForm()
+    '''form = PostForm()
     if current_user.can(Permission.WRITE_ARTICLES) and form.validate_on_submit():
         post = Post(body=form.body.data,
                     author=current_user._get_current_object())
         db.session.add(post)
         db.session.commit()
-        return redirect(url_for('.index'))##指向哪里的页面
+        return redirect(url_for('.index'))##指向哪里的页面'''
     page = request.args.get('page',1,type=int)
     ##all（）换成paginate（）显示每页的数据
     query = Post.query
@@ -28,13 +28,32 @@ def index():
         page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False
     )
     posts = pagination.items
-    return render_template('index.html',form=form,posts=posts,pagination=pagination)
+    return render_template('index.html',posts=posts,pagination=pagination)
 
+
+@main.route('/_question',methods=['POST'])
+def _question():
+    form = request.form.get("postform")
+    if current_user.can(Permission.WRITE_ARTICLES):
+        post = Post(body=form,
+                    author=current_user._get_current_object())
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('.index'))##指向哪里的页面
 
 @main.route('/post/<int:id>',methods=['GET','POST'])
 def post(id):
     post = Post.query.get_or_404(id)
     form = AnswerForm()
+    '''
+    form2 = PostForm()
+    if form2.validate_on_submit():
+        post = Post(body=form2.body.data,
+                    author=current_user._get_current_object())
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('.index'))  ##指向哪里的页面
+        '''
     if form.validate_on_submit():
         answer = Answer(body=form.body.data,
                         post=post,

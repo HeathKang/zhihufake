@@ -1,11 +1,13 @@
 <meta charset="UTF-8">
 {% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block head %}
 {{ super() }}
 <link rel="shortcut icon" href="{{url_for('static',filename='zhihu.icon')}}" type="image/vnd.microsoft.icon">
 <link rel="icon" href="{{ url_for('static', filename = 'zhihu.ico') }}" type="image/vnd.microsoft.icon">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css')}}">
+<link rel="jQuery" type="txt/javascript"href="{{ url_for('static',filename='jquery.js')}}">
 {% endblock %}
 
 {% block navbar %}
@@ -36,7 +38,43 @@
                 <li><a href=#>消息</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <button type="button" class="btn btn-default navbar-btn add-question">提问</button>
+                            <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-lg btn-default navbar-btn add-question" data-toggle="modal" data-target="#myModal">提问</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel"><font size="5" color="black">提问</font></h4>
+                            </div>
+                            <div class="modal-body">
+                                <font size="3" color="black">
+                                <p>知乎fake是一个真诚、友善、认真、互助的社区<br/>
+                                我们希望每一个疑惑都有解答，好的问题更容易得到好答案<br/>
+
+                                <b>提问应遵循真实、客观、简洁、明确、规范的原则</b><br/>
+                                1、提问应尽可能简洁明了，避免「请问」「有谁知道」「谢谢！」等与问题本身无关的附加语。<br/>
+                                2、应避免使用「为神马」「童鞋」「肿么办」等网络用语。<br/>
+                                3、基于个人判断或传言的问题，在提问时应在补充说明里详细说明原由<br/>
+                                4、避免太宽泛问题，如调查性的问题容易变成每个人都可以发表观点，但对其他人没有价值。</p>
+                            {% if current_user.is_authenticated %}
+
+                                <form method="post" action='/_question' role="form">
+                                  <textarea class="span3" name="postform" rows="3" cols="50">输入你的问题。。。</textarea>
+                                  <p><input type="submit" value="发布"></p>
+                                </form>
+
+                            {% else %}
+                                <h2>请您<a href="{{ url_for('auth.login') }}">登录</a>后再使用此功能</h2>
+                            {% endif %}
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {% if current_user.is_authenticated %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src=#>Account<b class="caret"></b></a>
