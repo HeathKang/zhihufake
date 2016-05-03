@@ -7,7 +7,7 @@
 <link rel="shortcut icon" href="{{url_for('static',filename='zhihu.icon')}}" type="image/vnd.microsoft.icon">
 <link rel="icon" href="{{ url_for('static', filename = 'zhihu.ico') }}" type="image/vnd.microsoft.icon">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css')}}">
-<link rel="jQuery" type="txt/javascript"href="{{ url_for('static',filename='jquery.js')}}">
+
 {% endblock %}
 
 {% block navbar %}
@@ -113,4 +113,20 @@
 {% block scripts %}
 {{ super() }}
 {{ moment.include_moment() }}
+{{ moment.lang("zh-CN") }}
+<script type=text/javascript>
+  $(function() {
+    $("a.up").each(function(){
+        $(this).bind("click",function(){
+            var id = $(this).attr('id');
+            $.getJSON('/_add_agree',
+                {answer_id:$(this).attr('id')},
+                function(json) {
+                    $("#agree-count-" + id ).text(json.agree_count);
+            });
+        });
+    });
+  });
+</script>
 {% endblock %}
+

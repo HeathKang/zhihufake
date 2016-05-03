@@ -4,7 +4,7 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-from flask import render_template,abort,redirect,url_for,flash,request,current_app,make_response
+from flask import render_template,abort,redirect,url_for,flash,request,current_app,make_response,jsonify
 from flask.ext.login import login_required,current_user
 from . import main
 from .forms import PostForm,AnswerForm
@@ -70,6 +70,15 @@ def post(id):
             page,per_page=current_app.config['FLASKY_ANSWERS_PER_PAGE'],
             error_out=False)
     answers = pagination.items
-    return render_template('post.html',posts=[post],form=form,
-                            answers=answers,pagination=pagination)
+    return render_template('post.html',post=post,form=form,
+                            answers=answers,pagination=pagination)#[post] only one post,because id
+
+
+@main.route('/_add_agree')
+def _add_agree():
+    answer = Answer.query.filter_by(id=request.args.get('answer_id')).first()
+    answer.agree += 1
+    db.session.add(answer)
+    db.session.commit()
+    return jsonify({'agree_count' : answer.agree})
 

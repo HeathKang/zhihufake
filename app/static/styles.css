@@ -40,7 +40,7 @@
     margin-right: 5px;
     background-position: -71px -88px;
 }
-ul.posts {
+ul.posts ,ul.answers {
     list-style-type: none;
     padding: 0px;
     margin: 16px 0px 0px 0px;
@@ -53,7 +53,7 @@ div.pagination {
      margin-left: 20%;
  }
 
-li.post{
+li.post,li.answer ,div.post-footer {
     width:800px;
     padding: 10px 0;
     position: relative;
@@ -68,36 +68,109 @@ div.profile-thumbnail{
     width: 38px;
     height: 38px;
  }
-div.post-content{
+div.post-content {
     margin-left: 48px;
     min-height: 48px;
     position:relative;
     float:top;
 
 }
-div.post-author {
+div.post-author ,.answer-author {
     position: relative;
     font-weight: bold;
     float:left;
     color: #BBB;
 }
-div.post-author a {
+div.post-author a,.answer-author a {
     color:#666;
 }
 
 
-div.divider{
+div.divider {
     font-size: 12px;
     margin-left:2px;
     margin-right:2px;
     float:left;
     color: #BBB;
 }
-div.post-date{
+div.post-date,.answer-data {
     color: #BBB;
 }
 
 div.post-body a {
     color:#259;
     text-decoration: none;
+}
+
+div.vote {
+    position:absolute;
+    display: block;
+    margin-left: -48px;
+    width: 38px;
+    height: 73px;
+}
+
+.button-up,.button-down{
+    display: block;
+    color: #698ebf;
+    height: 24px;
+    line-height: 24px;
+    width: 38px;
+    border-radius: 3px;
+    border: 0;
+    cursor: pointer;
+    background: #eff6fa;
+    font-weight: 700;
+    font-weight: 500;
+    text-align: center;
+    position: relative;   
+    padding: 0;
+    
+}
+
+.button-up {
+    padding-top: 18px;
+    height: 44px;
+}
+
+.button-down{
+    margin: 5px 0 0;
+}
+.vote-up,.vote-down{
+    display: block;
+    color: #698ebf;
+    height: 24px;
+    line-height: 24px;
+    width: 38px;
+    border-radius: 3px;
+    border: 0;
+    cursor: pointer;
+    background: #eff6fa;
+    font-weight: 700;
+    font-weight: 500;
+    text-align: center;
+    position: relative;
+    
+}
+
+
+.agree,.disagree {
+    background-color: #eff7fa;
+    display:none;
+}
+
+div.right {
+    float:right;
+    position:relative;
+ }
+
+div.answer-body {
+    margin:10px,0px,10px,0px;
+}
+
+div.answer-content {
+    margin-left: 0 px;
+    min-height: 78px;
+    position:relative;
+    float:top;
 }

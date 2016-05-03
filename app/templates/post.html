@@ -6,17 +6,21 @@
 {% block title %}知乎fake - 问题 {% endblock %}
 
 {% block page_content %}
-{% include '_posts.html' %}
-<h4 id="answers">答案</h4>
+{% include '_post.html' %}
+
+<div class="post-footer">
+    <strong>{{ post.answers.count() }}个回答</strong>
+</div>
+
+{% include '_answers.html' %}
 {% if current_user.can(Permission.COMMENT) %}
 <div class="answer-form">
     {{wtf.quick_form(form)}}
 </div>
 {% endif %}
-{% include '_answers.html' %}
 {% if pagination %}
 <div class="pagination">
-    {{ macros.pagination_widget(pagination,'.post',fragment='#answers',id=posts[0].id)}}
+    {{ macros.pagination_widget(pagination,'.post',fragment='#answers',id=post.id)}}
 </div>
 {% endif %}
 
