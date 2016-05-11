@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<div class="main-wrap">
+    <div class="main-content">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="username" id="{{ user.username }}">
+                    <h1>{{ user.username }}</h1>
+                </div>
+                <div class="user-profile">
+                    <img class="medium-avatar"></img>
+                    <div class="user-profile-header">
+                        <div class="user-profile-description">
+                            <div class="edit">
+                                <span class="glyphicon glyphicon-map-marker"> </span>
+                                <span class="edit business">计算机</span>
+                                <span class="gender glyphicon glyphicon-font"> </span>
+                            </div>
+                            <div class="edit">
+                                <a class="more-profile"  href="#">
+                                    <span class="edit glyphicon glyphicon-arrow-right"></span>
+                                    <span >详细资料</span>
+                                </a>
+                            </div>
+                            <div class="user-profile-word">
+                                <span> 你的一句话介绍</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-fulfillment">
+                    <div class="edit user-fulfillment-left">
+                        <span class="left-info">获得</span>
+                        <span class="edit glyphicon glyphicon-thumbs-up"> </span>
+                        <span>赞数（预留）</span>
+                    </div>
+                    <div class="user-fulfillment-right">
+                        {% if current_user.can(Permission.FOLLOW) and user != current_user %}
+                            {% if not current_user.is_following(user) %}
+                                <button id="follow" class="following">关注</button>
+                            {% else %}
+                                <button id="follow" class="unfollow">取消关注</button>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer" id="footer">
+                <a class="edit user-html" href="{{ url_for('main.user',username=user.username)}}">
+                    <span class="edit user-active glyphicon glyphicon-home"> </span>
+                </a>
+                <a class="edit" href="#">提问{{ user.posts.count() }}</a>
+                <a class="edit" href="#">回答{{ user.answers.count() }}</a>
+                <a href="#" class="edit followed">
+                    <span>关注了<strong id="followed">{{ user.followed.count()}}</strong>人</span>
+                </a>
+                <a href="#" class="edit follower">
+                    <span>关注者
+                        <strong id="follower">{{ user.followers.count()}}</strong>人
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">回答</h3>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">提问</h3>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">最新动态</h3>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+        </div>
+    </div>
+
+
+    <div class="main-barside">
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+<script type=text/javascript>
+  $(function(){
+    $("button#follow").click(function(){
+        var classname=$(this).attr("class");
+        var username=$("div.username").attr('id');
+        var followers_count=parseInt($("#follower").text());
+        if(classname=='following'){
+            $("button#follow").attr("class","unfollow");
+            $("button#follow").text("取消关注");
+            $.getJSON('/_follow',
+                {username:username},
+                function() {
+                    $("#follower").text(followers_count + 1);
+                });
+
+            }
+        else{
+            $("button#follow").attr("class","following");
+            $("button#follow").text("关注");
+            $.getJSON('/_unfollow',
+                {username:username},
+                function(json) {
+                    $("#follower").text(followers_count - 1);
+            });
+        }
+    });
+  });
+</script>
+{% endblock %}

@@ -97,7 +97,7 @@ div.post-date,.answer-data {
     color: #BBB;
 }
 
-div.post-body a {
+a {
     color:#259;
     text-decoration: none;
 }
@@ -129,7 +129,6 @@ div.vote {
 }
 
 .button-up {
-    padding-top: 18px;
     height: 44px;
 }
 
@@ -154,6 +153,7 @@ div.vote {
 }
 
 
+
 .agree,.disagree {
     background-color: #eff7fa;
     display:none;
@@ -174,3 +174,128 @@ div.answer-content {
     position:relative;
     float:top;
 }
+
+div.username {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+div.main-wrap {
+    width:780px;
+}
+div.user-profile {
+
+}
+
+img.medium-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+    float:left;
+}
+
+div.user-profile-header{
+    margin-left: 115px;
+    position:relative;
+    float:top;
+}
+
+.gender{
+    border-left: 1px solid #eee;
+    margin-left: 6px;
+    padding-left: 10px;
+}
+
+.edit{
+    color: #666;
+    margin-top:5px;
+}
+
+div.user-profile-word {
+    overflow: hidden;
+    position: relative;
+    padding: 12px 15px 0 0;
+    border-top: 1px dotted #eee;
+    margin: 18px 0px;
+}
+
+div.user-fulfillment {
+    padding: 12px 18px;
+    border-top: 1px dotted #eee;
+}
+
+div.user-fulfillment-left {
+    float: left;
+}
+
+.left-info {
+    margin-right: 5px;
+}
+div.user-fulfillment-right {
+    float:right;
+
+}
+
+.following {
+    padding: 0 5px;
+    height: 27px;
+    line-height: 27px;
+    font-size: 13px;
+    white-space: nowrap;
+    width: auto;
+    _width: 78px;
+    min-width: 78px;
+    color: #3e5e00 !important;
+    text-shadow: 0 1px 0 rgba(255,255,255,.3);
+    background: #8ab923;
+    background: -webkit-linear-gradient(top,#adda4d,#86b846);
+    background: linear-gradient(to bottom,#adda4d,#86b846);
+    border: 1px solid #6d8f29;
+    box-shadow: 0 1px 0 rgba(255,255,255,.5) inset,0 1px 0 rgba(0,0,0,.2);
+}
+.unfollow {
+    padding: 0 5px;
+    height: 27px;
+    line-height: 27px;
+    font-size: 13px;
+    width: auto;
+    _width: 78px;
+    min-width: 78px;
+    white-space: nowrap;
+    background: #eee;
+    color: #888;
+    border: 1px solid #ddd;
+}
+
+a.follower,a.followed {
+    float:right;
+}
+
+div#footer {
+    padding-left:0px;
+    padding-top:0px;
+
+}
+div.panel-footer .edit{
+    padding: 12px 12px;
+    font-weight: 700;
+    color: #666;
+    text-align: center;
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 22px;
+
+}
+.user-html{
+    border: solid #ddd;
+    border-width: 0 1px;
+    background-color: #f7f7f7;
+    box-shadow: 0 2px 2px #f0f0f0 inset;
+}
+.user-active {
+    background-position: -149px -165px;
+    width: 18px;
+    height: 19px;
+    vertical-align: -5px;
+    margin-left:-5px;
+}
+

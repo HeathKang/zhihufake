@@ -4,18 +4,18 @@
     <li class="answer" >
         <div class="vote">
                 <a href="#" class="up" id="{{ answer.id }}"><button class="button-up" id="b_{{ answer.id }}"title="大胆赞同" aria-pressed="false" >
-                    <span class="glyphicon glyphicon-chevron-up vote-up"></span>
+                    <span class="glyphicon glyphicon-chevron-up vote-up"> </span>
                     <span class="count" id="agree-count-{{ answer.id }}">{{ answer.agree }}</span>
                     <span class="agree">赞同</span>
                 </button></a>
                 <a href="#" id="add-disagree"><button class="button-down" title="放心反对" aria-pressed="false">
-                    <span class="glyphicon glyphicon-chevron-down vote-down"></span>
+                    <span class="glyphicon glyphicon-chevron-down vote-down"> </span>
                     <span class="disagree" id="disagree">放心反对</span>
                 </button></a>
         </div>
         <div class="answer-content">
             <div>
-                <div class="answer-author"><a href=#>{{ answer.author.username }}</a></div>
+                <div class="answer-author"><a href="{{ url_for('main.user',username=answer.author.username) }}">{{ answer.author.username }}</a></div>
                 <div class="divider">•</div>
                 <div class="answer-date">{{ moment(answer.timestamp).fromNow() }}</div>
                 <div class="profile-thumbnail right">

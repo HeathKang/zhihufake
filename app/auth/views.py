@@ -60,3 +60,4 @@ def logout():
     logout_user()
     flash('您已经登出！')
     return redirect(url_for('main.index'))
+

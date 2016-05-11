@@ -21,6 +21,15 @@ class Permission:
     MODERATE_COMMENTS =0x08
     ADMINISTER = 0x80
 
+class Follow(db.Model):
+    _tablename_ = 'follows'
+    follower_id = db.Column(db.Integer,db.ForeignKey('users.id'),
+                            primary_key=True)
+    followed_id = db.Column(db.Integer,db.ForeignKey('users.id'),
+                            primary_key=True)
+    timestamp = db.Column(db.DateTime,default=datetime.utcnow)
+
+
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -92,9 +101,8 @@ class Answer(db.Model):
     def on_changed_body(target,value,oldvalue,initiator):
         allowed_tags = ['a','abbr','acronym','b','blockquote','code','em',
                         'i','li','ol','pre','strong','ul','h1','h2','h3','p']
-        target.body_html = bleach.linkify(bleach.clean(
-            markdown(value,output_format='html'),
-            tags=allowed_tags,strip=True))
+        target.body_html = bleach.linkify(bleach.clean(markdown(value,output_format='html'),
+                                                        tags=allowed_tags,strip=True))
 
 db.event.listen(Answer.body,'set',Answer.on_changed_body)
 
@@ -112,6 +120,17 @@ class User(UserMixin,db.Model):
     confirmed = db.Column(db.Boolean,default=False)
     posts = db.relationship('Post',backref='author',lazy='dynamic')
     answers = db.relationship('Answer',backref='author',lazy='dynamic')
+    followed = db.relationship('Follow',
+                               foreign_keys=[Follow.follower_id],
+                               backref=db.backref('follower',lazy='joined'),
+                               lazy='dynamic',
+                               cascade='all,delete-orphan')
+    followers = db.relationship('Follow',
+                               foreign_keys=[Follow.followed_id],
+                               backref=db.backref('followed', lazy='joined'),
+                               lazy='dynamic',
+                               cascade='all,delete-orphan')
+
 
     def __init__(self,**kwargs):
         super(User,self).__init__(**kwargs)
@@ -152,6 +171,26 @@ class User(UserMixin,db.Model):
     def can(self, permissions):
         return self.role is not None and \
                (self.role.permissions & permissions) == permissions
+
+    def is_following(self,user):
+        return self.followed.filter_by(followed_id=user.id).first() is not None
+
+    def is_followed(self,user):
+        return self.followers.filter_by(follower_id=user.id).first() is not None
+
+    def follow(self,user):
+        if not self.is_following(user):
+            f = Follow(follower=self,followed=user)
+            db.session.add(f)
+
+    def unfollow(self,user):
+        f = self.followed.filter_by(followed_id=user.id).first()
+        if f:
+            db.session.delete(f)
+
+
+
+
 
 
 class AnonymousUser(AnonymousUserMixin):

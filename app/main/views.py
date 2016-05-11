@@ -10,6 +10,7 @@ from . import main
 from .forms import PostForm,AnswerForm
 from ..models import Post,User,Answer,Permission,Role
 from .. import db
+from ..decorators import admin_required,permission_required
 
 
 @main.route('/',methods=['GET','POST'])
@@ -81,4 +82,34 @@ def _add_agree():
     db.session.add(answer)
     db.session.commit()
     return jsonify({'agree_count' : answer.agree})
+
+@main.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        abort(404)
+    page = request.args.get('page',1,type=int)
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out = False)
+    posts = pagination.items
+    return render_template('user.html',user=user,posts=posts,pagination=pagination)
+
+@main.route('/_follow')
+@login_required
+@permission_required(Permission.FOLLOW)
+def _follow():
+    username = request.args.get('username')
+    user = User.query.filter_by(username=username).first()
+    current_user.follow(user)
+    return jsonify({'followers_count' : user.followers.count()})
+
+@main.route('/_unfollow')
+@login_required
+@permission_required(Permission.FOLLOW)
+def _unfollow():
+    username=request.args.get('username')
+    user = User.query.filter_by(username=username).first()
+    current_user.unfollow(user)
+    return jsonify({'followers_count': user.followers.count()})
 
