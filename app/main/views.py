@@ -78,7 +78,14 @@ def post(id):
 @main.route('/_add_agree')
 def _add_agree():
     answer = Answer.query.filter_by(id=request.args.get('answer_id')).first()
-    answer.agree += 1
+    user = current_user._get_current_object()
+    if answer.is_agreed_by(user):
+        answer.agree -= 1
+        answer.userss.remove(user)
+
+    else:
+        answer.userss.append(user)
+        answer.agree += 1
     db.session.add(answer)
     db.session.commit()
     return jsonify({'agree_count' : answer.agree})

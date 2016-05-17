@@ -13,6 +13,9 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from markdown import markdown
 import bleach
 
+agrees = db.Table('agrees',
+                  db.Column('users_id',db.Integer,db.ForeignKey('users.id')),
+                  db.Column('answers_id',db.Integer,db.ForeignKey('answers.id')) )
 
 class Permission:
     FOLLOW = 0x01
@@ -104,6 +107,9 @@ class Answer(db.Model):
         target.body_html = bleach.linkify(bleach.clean(markdown(value,output_format='html'),
                                                         tags=allowed_tags,strip=True))
 
+    def is_agreed_by(self,user):
+        return self.userss.filter_by(id=user.id).first() is not None
+
 db.event.listen(Answer.body,'set',Answer.on_changed_body)
 
 
@@ -130,6 +136,10 @@ class User(UserMixin,db.Model):
                                backref=db.backref('followed', lazy='joined'),
                                lazy='dynamic',
                                cascade='all,delete-orphan')
+    agrees = db.relationship('Answer',
+                             secondary=agrees,
+                             backref=db.backref('userss',lazy='dynamic'),
+                             lazy='dynamic')
 
 
     def __init__(self,**kwargs):
