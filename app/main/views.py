@@ -120,3 +120,16 @@ def _unfollow():
     current_user.unfollow(user)
     return jsonify({'followers_count': user.followers.count()})
 
+@main.route('/_search')
+def _search():
+    key = request.args.get('key')
+    posts = Post.query.whoosh_search(key).all()
+    if posts :
+        post = [post.body for post in posts]
+        url = [ url_for('.post', id=post1.id, _external=True) for post1 in posts ]
+    else:
+        post = '对不起！查不到您想要的！'
+        url = 'None'
+    return jsonify({'post': post,
+                    'url': url
+                    })

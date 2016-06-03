@@ -10,10 +10,11 @@ from app import create_app,db
 from app.models import Post,User,Role,Answer
 from flask.ext.script import Manager,Shell
 from flask.ext.migrate import Migrate,MigrateCommand
-
+import flask_whooshalchemyplus as whoolshalchemy
 app = create_app(os.getenv('FLASKY_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app,db)
+whoolshalchemy.whoosh_index(app,Post)
 
 
 def make_shell_context():

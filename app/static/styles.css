@@ -291,6 +291,38 @@ div.panel-footer .edit{
     background-color: #f7f7f7;
     box-shadow: 0 2px 2px #f0f0f0 inset;
 }
+
+li.searchResulttitle {
+
+    background-color: #f7f7f7;
+
+}
+
+li.searchResult  {
+    width:600px;
+}
+
+li.searchResult1  {
+    color:#9932CC;
+    background-color:#FAFAD2;
+    width:600px;
+}
+
+.dropdown-menu {
+    width:600px;
+    padding:0 0 0 0;
+}
+
+.list-group-item-warning {
+    background-color:#FFCCCC;
+    color:#888888;
+}
+
+.list-group-item-info {
+    background-color:#E6E6FA ;
+    color:#B8860B ;
+}
+
 .user-active {
     background-position: -149px -165px;
     width: 18px;
@@ -298,4 +330,5 @@ div.panel-footer .edit{
     vertical-align: -5px;
     margin-left:-5px;
 }
+
 

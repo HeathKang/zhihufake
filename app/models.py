@@ -12,6 +12,8 @@ from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from markdown import markdown
 import bleach
+import flask_whooshalchemyplus
+from jieba.analyse import ChineseAnalyzer
 
 agrees = db.Table('agrees',
                   db.Column('users_id',db.Integer,db.ForeignKey('users.id')),
@@ -70,6 +72,8 @@ class Role(db.Model):
 
 
 class Post(db.Model):
+    __searchable__ = ['body']
+    __analyzer__ = ChineseAnalyzer()
     __tablename__ = 'posts'
     id = db.Column(db.Integer,primary_key=True)
     body = db.Column(db.Text)
