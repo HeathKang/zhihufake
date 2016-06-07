@@ -302,16 +302,18 @@ li.searchResult  {
     width:600px;
 }
 
+
 li.searchResult1  {
     color:#9932CC;
     background-color:#FAFAD2;
     width:600px;
 }
 
-.dropdown-menu {
+#searchlist  {
     width:600px;
     padding:0 0 0 0;
 }
+
 
 .list-group-item-warning {
     background-color:#FFCCCC;

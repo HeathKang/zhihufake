@@ -124,12 +124,24 @@ def _unfollow():
 def _search():
     key = request.args.get('key')
     posts = Post.query.whoosh_search(key).all()
-    if posts :
-        post = [post.body for post in posts]
-        url = [ url_for('.post', id=post1.id, _external=True) for post1 in posts ]
+    users = User.query.whoosh_search(key).all()
+    answers = Answer.query.whoosh_search(key).all()
+    user2,post2,answer2 = [],[],[]
+    url,user_urls,answers_urls = [],[],[]
+    if posts or answers or users:
+        user2 = [user.username for user in users ]
+        post2 = [post.body for post in posts]
+        answer2 = [answer.post.body for answer in answers if answer.post not in posts]
+        answers_urls = [url_for('.post', id=answer1.post.id, _external=True) for answer1 in answers]
+        url = [ url_for('.post', id=post1.id, _external=True) for post1 in posts]
+        user_urls = [ url_for('.user',username=user1.username,_external=True) for user1 in users]
     else:
-        post = '对不起！查不到您想要的！'
+        post2 = '对不起！查不到您想要的！'
         url = 'None'
-    return jsonify({'post': post,
-                    'url': url
+    return jsonify({'post': post2,
+                    'url': url,
+                    'user':user2,
+                    'user_urls':user_urls,
+                    'answer':answer2,
+                    'answers_urls':answers_urls
                     })

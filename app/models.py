@@ -93,6 +93,8 @@ class Post(db.Model):
 db.event.listen(Post.body,'set',Post.on_changed_body)
 
 class Answer(db.Model):
+    __searchable__ = ['body']
+    __analyzer__ = ChineseAnalyzer()
     __tablename__ = 'answers'
     id = db.Column(db.Integer,primary_key=True)
     body = db.Column(db.Text)
@@ -121,6 +123,8 @@ db.event.listen(Answer.body,'set',Answer.on_changed_body)
 
 
 class User(UserMixin,db.Model):
+    __searchable__ = ['username']
+    __analyzer__ = ChineseAnalyzer()
     __tablename__='users'
     id = db.Column(db.Integer,primary_key=True)
     email = db.Column(db.String(64),unique=True,index=True)

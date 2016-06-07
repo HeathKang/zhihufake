@@ -15,6 +15,8 @@ app = create_app(os.getenv('FLASKY_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app,db)
 whoolshalchemy.whoosh_index(app,Post)
+whoolshalchemy.whoosh_index(app,User)
+whoolshalchemy.whoosh_index(app,Answer)
 
 
 def make_shell_context():
