@@ -134,6 +134,7 @@ class User(UserMixin,db.Model):
     confirmed = db.Column(db.Boolean,default=False)
     posts = db.relationship('Post',backref='author',lazy='dynamic')
     answers = db.relationship('Answer',backref='author',lazy='dynamic')
+    avatar_hash = db.Column(db.String(32))
     followed = db.relationship('Follow',
                                foreign_keys=[Follow.follower_id],
                                backref=db.backref('follower',lazy='joined'),
@@ -157,6 +158,9 @@ class User(UserMixin,db.Model):
                 self.role = Role.query.filter_by(permission=oxff).first()#赋予管理员角色
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first() #赋予默认角色
+        if self.email is not None and self.avatar_hash is None:
+            self.avatar_hash = hashlib.md5(
+            self.email.encode('utf-8')).hexdigest()
 
     @property
     def password(self):
@@ -205,6 +209,16 @@ class User(UserMixin,db.Model):
         f = self.followed.filter_by(followed_id=user.id).first()
         if f:
             db.session.delete(f)
+
+    def gravatar(self,size=100,default='identicon',rating='g'):
+        if request.is_secure:
+            url = 'https://secure.gravatar.com/avatar'
+        else:
+            url = 'http://www.gravatar.com/avatar'
+        hash = self.avatar_hash or hashlib.md5(self.email.encode('utf-8')).hexdigest()
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
+            url=url,hash=hash,size=size,default=default,rating=rating
+        )
 
 
 

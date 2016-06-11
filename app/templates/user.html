@@ -9,7 +9,7 @@
                     <h1>{{ user.username }}</h1>
                 </div>
                 <div class="user-profile">
-                    <img class="medium-avatar"></img>
+                    <img class="medium-avatar" src="{{ user.gravatar(size=256)}}"></img>
                     <div class="user-profile-header">
                         <div class="user-profile-description">
                             <div class="edit">
