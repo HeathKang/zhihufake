@@ -333,4 +333,55 @@ li.searchResult1  {
     margin-left:-5px;
 }
 
+.user-answer{
+    position: relative;
+    padding: 12px 0;
+    border-top: 1px dotted #EEE;
+}
+.user-answer-agree {
+    float: left;
+    padding: 2px;
+    color: #259;
+    height: 38px;
+    width: 46px;
+    line-height: 20px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 4px;
+    background: #eff6fa;
+
+}
+.user-answer-agree-count {
+    padding: 2px 0 4px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1;
+    color: #259;
+    text-align: center;
+}
+.user-answer-agree-agree {
+    line-height: 1;
+    font-weight: 400;
+    font-size: 12px;
+    color: #259;
+    text-align: center;
+}
+.user-answer-main {
+    margin-left: 60px;
+}
+.user-answer-post{
+    font-weight: 700;
+    font-size: 14px;
+    outline: 0;
+}
+.user-answer-answer{
+    margin: 0;
+    padding: 0;
+    width:500px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+
 
