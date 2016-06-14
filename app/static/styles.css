@@ -382,6 +382,14 @@ li.searchResult1  {
     overflow:hidden;
     text-overflow:ellipsis;
 }
+a:hover {
+    text-decoration: none;
+}
+a.post-link:hover {
+    text-decoration: underline;
+}
+
+
 
 
 

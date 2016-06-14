@@ -45,7 +45,7 @@ def _question():
 @main.route('/post/<int:id>',methods=['GET','POST'])
 def post(id):
     post = Post.query.get_or_404(id)
-    form = AnswerForm()
+    #form = AnswerForm()
     '''
     form2 = PostForm()
     if form2.validate_on_submit():
@@ -54,7 +54,8 @@ def post(id):
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('.index'))  ##指向哪里的页面
-        '''
+    '''
+    '''
     if form.validate_on_submit():
         answer = Answer(body=form.body.data,
                         post=post,
@@ -62,7 +63,16 @@ def post(id):
         db.session.add(answer)
         db.session.commit()
         flash('您的答案已成功发布！')
-        return redirect(url_for('.post',id=post.id,page=-1))#return to the post and last(-1) answer
+        return redirect(url_for('.post',id=post.id,page=-1))#return to the post and last(-1) answer'''
+    form = request.form.get("content")
+    if form:
+        answer = Answer(body=form,
+                        post=post,
+                        author=current_user._get_current_object())
+        db.session.add(answer)
+        db.session.commit()
+        flash('您的答案已成功发布！')
+        return redirect(url_for('.post', id=post.id, page=-1))  # return to the post and last(-1) answer
     page = request.args.get('page',1,type=int)
     if page == -1:
         page = (post.answers.count() - 1) / \
