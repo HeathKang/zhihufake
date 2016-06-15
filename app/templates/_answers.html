@@ -34,6 +34,12 @@
                     {{ answer.body }}
                 {% endif %}
             </div>
+            <div class="answer-foot">
+                {% if answer.author_id == current_user.id %}
+                <a href="{{url_for('.edit_answer',id=answer.id)}}">
+                <span class="label label-primary">修改</span></a>
+                    {% endif %}
+            </div>
         </div>
     </li>
     {% endfor %}

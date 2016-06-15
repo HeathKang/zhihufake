@@ -152,3 +152,17 @@ def _search():
                     'answer':answer2,
                     'answers_urls':answers_urls
                     })
+
+@main.route('/edit_answer/<int:id>',methods=['GET','POST'])
+@login_required
+def edit_answer(id):
+    answer= Answer.query.get_or_404(id)
+    post = Post.query.get_or_404(answer.post_id)
+    form = request.form.get("content")
+    if form:
+        answer.body = form
+        db.session.add(answer)
+        db.session.commit()
+        flash('您的答案已更新！')
+        return redirect(url_for('.post', id=post.id, page=-1))  # return to the post and last(-1) answer
+    return render_template('edit_answer.html',post=post,answer=answer)#[post] only one post,because id
