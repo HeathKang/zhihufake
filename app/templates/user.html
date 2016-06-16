@@ -13,9 +13,14 @@
                     <div class="user-profile-header">
                         <div class="user-profile-description">
                             <div class="edit">
-                                <span class="glyphicon glyphicon-map-marker"> </span>
-                                <span class="edit business">计算机</span>
-                                <span class="gender glyphicon glyphicon-font"> </span>
+                                <span class="glyphicon glyphicon-map-marker">
+                                    {% if user.location %}
+                                    <a href="http://gaode.com/search?query={{ user.location }}">{{ user.location}}</a>
+                                    {% else %}
+                                    中国
+                                    {% endif %}
+                                </span>
+                                <span class="gender ">{% if user.gender == 0 %}女{% else %}男{% endif %}</span>
                             </div>
                             <div class="edit">
                                 <a class="more-profile"  href="#">
@@ -24,7 +29,7 @@
                                 </a>
                             </div>
                             <div class="user-profile-word">
-                                <span> 你的一句话介绍</span>
+                                <span>{%if user.about_me%}{{ user.about_me }}{% else %}想了些什么却没有写{% endif %}</span>
                             </div>
                         </div>
                     </div>
@@ -42,6 +47,8 @@
                             {% else %}
                                 <button id="follow" class="unfollow">取消关注</button>
                             {% endif %}
+                        {% else %}
+                            <a href="{{ url_for('.edit_profile')}}"><button type="button" class="btn btn-info">编辑我的资料</button></a>
                         {% endif %}
                     </div>
                 </div>

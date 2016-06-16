@@ -17,8 +17,10 @@ from jieba.analyse import ChineseAnalyzer
 
 agrees = db.Table('agrees',
                   db.Column('users_id',db.Integer,db.ForeignKey('users.id')),
-                  db.Column('answers_id',db.Integer,db.ForeignKey('answers.id')) )
-
+                  db.Column('answers_id',db.Integer,db.ForeignKey('answers.id')))
+answerd = db.Table('answerd',
+                   db.Column('users_id',db.Integer,db.ForeignKey('users.id')),
+                   db.Column('posts_id',db.Integer,db.ForeignKey('posts.id')))
 class Permission:
     FOLLOW = 0x01
     COMMENT = 0x02
@@ -89,6 +91,9 @@ class Post(db.Model):
                         'i','li','ol','pre','strong','ul','h1','h2','h3','p']
         target.body_html = bleach.linkify(bleach.clean(markdown(value,output_format='html'),
                                                        tags=allowed_tags,strip=True))
+    def is_answerd_by(self,user):
+        return self.usersss.filter_by(id=user.id).first() is not None
+
 
 db.event.listen(Post.body,'set',Post.on_changed_body)
 
@@ -135,6 +140,9 @@ class User(UserMixin,db.Model):
     posts = db.relationship('Post',backref='author',lazy='dynamic')
     answers = db.relationship('Answer',backref='author',lazy='dynamic')
     avatar_hash = db.Column(db.String(32))
+    location = db.Column(db.String(64))
+    gender = db.Column(db.Boolean,default=True)
+    about_me = db.Column(db.Text())
     followed = db.relationship('Follow',
                                foreign_keys=[Follow.follower_id],
                                backref=db.backref('follower',lazy='joined'),
@@ -149,6 +157,10 @@ class User(UserMixin,db.Model):
                              secondary=agrees,
                              backref=db.backref('userss',lazy='dynamic'),
                              lazy='dynamic')
+    answerd = db.relationship('Post',
+                              secondary=answerd,
+                              backref=db.backref('usersss',lazy='dynamic'),
+                              lazy='dynamic')
 
 
     def __init__(self,**kwargs):

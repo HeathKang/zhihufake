@@ -53,13 +53,23 @@ div.pagination {
      margin-left: 20%;
  }
 
-li.post,li.answer ,div.post-footer {
+li.post,li.answer  {
     width:800px;
     padding: 10px 0;
     position: relative;
     margin-left: 0;
     outline: 0;
     border-top: 1px solid #e0e0e0;
+}
+
+div.post-footer {
+    width:750px;
+    padding: 10px 0;
+    position: relative;
+    margin-left: 0;
+    outline: 0;
+    border-top: 1px solid #e0e0e0;
+
 }
 
 div.profile-thumbnail{

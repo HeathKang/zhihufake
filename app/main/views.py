@@ -7,7 +7,7 @@ sys.setdefaultencoding('utf8')
 from flask import render_template,abort,redirect,url_for,flash,request,current_app,make_response,jsonify
 from flask.ext.login import login_required,current_user
 from . import main
-from .forms import PostForm,AnswerForm
+from .forms import PostForm,AnswerForm,EditProfileForm
 from ..models import Post,User,Answer,Permission,Role
 from .. import db
 from ..decorators import admin_required,permission_required
@@ -69,7 +69,9 @@ def post(id):
         answer = Answer(body=form,
                         post=post,
                         author=current_user._get_current_object())
+        post.usersss.append(current_user)
         db.session.add(answer)
+        db.session.add(post)
         db.session.commit()
         flash('您的答案已成功发布！')
         return redirect(url_for('.post', id=post.id, page=-1))  # return to the post and last(-1) answer
@@ -166,3 +168,18 @@ def edit_answer(id):
         flash('您的答案已更新！')
         return redirect(url_for('.post', id=post.id, page=-1))  # return to the post and last(-1) answer
     return render_template('edit_answer.html',post=post,answer=answer)#[post] only one post,because id
+
+@main.route('/edit_profile',methods=['GET','POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.location = form.location.data
+        current_user.gender = form.gender.data
+        current_user.about_me = form.about_me.data
+        db.session.add(current_user)
+        flash('您的资料已更新')
+        return redirect(url_for('.user',username=current_user.username))
+    form.location.data = current_user.location
+    form.gender.data = current_user.gender
+    return render_template('edit_profile.html',form=form)

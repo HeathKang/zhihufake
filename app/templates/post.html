@@ -22,7 +22,7 @@
 </div>
 
 {% include '_answers.html' %}
-{% if current_user.can(Permission.COMMENT) %}
+{% if current_user.can(Permission.COMMENT) and not post.is_answerd_by(current_user) %}
 
 <form action="/post/{{ post.id }}" method="post" >
     <!-- 加载编辑器的容器 -->
