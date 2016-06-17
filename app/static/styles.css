@@ -399,6 +399,20 @@ a.post-link:hover {
     text-decoration: underline;
 }
 
+.follower-list{
+    width:700px;
+    padding: 10px 0;
+    position: relative;
+    margin-left: 0;
+    outline: 0;
+    border-bottom: 1px solid #e0e0e0;
+
+}
+.follow-right {
+    width:100px;
+    float:right;
+}
+
 
 
 

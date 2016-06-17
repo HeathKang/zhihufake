@@ -129,6 +129,32 @@ def _unfollow():
     current_user.unfollow(user)
     return jsonify({'followers_count': user.followers.count()})
 
+@main.route('/followers/<username>')
+def followers(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('不存在该用户')
+        return redirect(url_for('.index'))
+    page = request.args.get('page',1,type=int)
+    pagination = user.followers.paginate(
+        page,per_page=current_app.config['FLASKY_FOLLOWERS_PER_PAGE'],error_out=False
+    )
+    followers =[item.follower for item in pagination.items ]
+    return render_template('followers.html',user=user,pagination=pagination,followers=followers)
+
+@main.route('/followed/<username>')
+def followed(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('不存在该用户')
+        return redirect(url_for('.index'))
+    page = request.args.get('page',1,type=int)
+    pagination = user.followed.paginate(
+        page,per_page=current_app.config['FLASKY_FOLLOWERS_PER_PAGE'],error_out=False
+    )
+    followers =[item.followed for item in pagination.items ]
+    return render_template('followed.html',user=user,pagination=pagination,followers=followers)
+
 @main.route('/_search')
 def _search():
     key = request.args.get('key')

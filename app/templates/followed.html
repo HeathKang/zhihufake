@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
 
 {% block page_content %}
 <div class="main-wrap">
@@ -59,7 +60,7 @@
                 </a>
                 <a class="edit" href="#">提问{{ user.posts.count() }}</a>
                 <a class="edit" href="#">回答{{ user.answers.count() }}</a>
-                <a href="{{ url_for('.followed',username=user.username )}}" class="edit followed">
+                <a href="#" class="edit followed">
                     <span>关注了<strong id="followed">{{ user.followed.count()}}</strong>人</span>
                 </a>
                 <a href="{{ url_for('.followers',username=user.username )}}" class="edit follower">
@@ -71,57 +72,28 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">回答</h3>
+                <h3 class="panel-title">
+                    <a class="post-link" href="{{ url_for('.user',username=user.username)}}"><strong>{{ user.username }}</strong></a>
+                    关注了<span>{{ user.followed.count()}}</span>人
+                </h3>
             </div>
             <div class="panel-body">
-                {% for answer in answers %}
-                    {% if loop.index0 <=2 %}
-                    <div class="user-answer" >
-                        <div class="user-answer-agree">
-                            <div class="user-answer-agree-count">{{ answer.agree }}</div>
-                            <div class="user-answer-agree-agree">赞同</div>
-                        </div>
-                        <div class="user-answer-main">
-                            <div class="user-answer-post">
-                                <a href="{{ url_for('.post',id=answer.post.id)}}">
-                                    {{ answer.post.body }}
-                                </a>
-                            </div>
-                            <div class="user-answer-answer">{{ answer.body }}</div>
-                        </div>
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">提问</h3>
-            </div>
-            <div class="panel-body">
-                {% for post in posts %}
-                    {% if loop.index0 <=2 %}
-                    <div class="user-answer" >
+                    {% for follow in followers %}
+                    <div class="follower-list">
+                        <a width='20' href="{{ url_for('.user', username = follow.username) }}">
+                            <img class="img-rounded" src="{{ follow.gravatar(size=24) }}">
+                                {{ follow.username }}
+                        </a>
 
-                        <div class="user-post-main">
-                            <div class="user-answer-post">
-                                <a href="{{ url_for('.post',id=post.id)}}">
-                                    {{ post.body }}
-                                </a>
-                            </div>
-                            <div class="user-answer-answer">创建于{{ moment(post.timestamp).fromNow() }} 共有{{ post.answers.count() }}条回答</div>
-                        </div>
+                        <a class="follow-right edit" href="{{ url_for('.followed',username=follow.username )}}">
+                            <strong>关注了</strong> <span>{{follow.followed.count()}}</span>人
+                        </a>
+                        <a class="follow-right edit" href="{{ url_for('.followers',username=follow.username )}}">
+                            <strong>关注者</strong> <span>{{follow.followers.count()}}</span>人
+                        </a>
+
                     </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">最新动态</h3>
-            </div>
-            <div class="panel-body">
-                Panel content
+                    {% endfor %}
             </div>
         </div>
     </div>
@@ -130,7 +102,9 @@
     <div class="main-barside">
 
     </div>
-
+    <div class="pagination">
+        {{ macros.pagination_widget(pagination,'.followed',username=user.username)}}
+    </div>
 
 </div>
 
