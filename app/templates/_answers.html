@@ -27,18 +27,35 @@
             <div class="answer-body">
                 {% if answer.disabled %}
                 <p><i>该答案已被折叠</i></p>
-                {% endif %}
-                {% if answer.body_html %}
-                    {{ answer.body_html | safe}}
+                    {% if current_user.can(Permission.MODERATE_COMMENTS)%}
+                        {% if answer.body_html %}
+                            {{ answer.body_html | safe}}
+                        {% else %}
+                            {{ answer.body }}
+                        {% endif %}
+                    {% endif %}
                 {% else %}
-                    {{ answer.body }}
+                    {% if answer.body_html %}
+                        {{ answer.body_html | safe}}
+                    {% else %}
+                        {{ answer.body }}
+                    {% endif %}
                 {% endif %}
             </div>
             <div class="answer-foot">
                 {% if answer.author_id == current_user.id %}
                 <a href="{{url_for('.edit_answer',id=answer.id)}}">
                 <span class="label label-primary">修改</span></a>
+                {% endif %}
+                {% if current_user.can(Permission.MODERATE_COMMENTS)%}
+                    {% if answer.disabled %}
+                        <a href="{{url_for('.enable',id=answer.id)}}">
+                        <span class="label label-success">显示</span></a>
+                    {% else %}
+                        <a href="{{url_for('.disable',id=answer.id)}}">
+                        <span class="label label-default">折叠</span></a>
                     {% endif %}
+                {% endif %}
             </div>
         </div>
     </li>

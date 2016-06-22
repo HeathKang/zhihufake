@@ -7,7 +7,7 @@ sys.setdefaultencoding('utf8')
 from flask import render_template,abort,redirect,url_for,flash,request,current_app,make_response,jsonify
 from flask.ext.login import login_required,current_user
 from . import main
-from .forms import PostForm,AnswerForm,EditProfileForm
+from .forms import PostForm,AnswerForm,EditProfileForm,EditProfileAdminForm
 from ..models import Post,User,Answer,Permission,Role
 from .. import db
 from ..decorators import admin_required,permission_required
@@ -84,7 +84,7 @@ def post(id):
             error_out=False)
     answers = pagination.items
     return render_template('post.html',post=post,form=form,
-                            answers=answers,pagination=pagination)#[post] only one post,because id
+                            answers=answers,pagination=pagination,page=page)#[post] only one post,because id
 
 
 @main.route('/_add_agree')
@@ -107,8 +107,8 @@ def user(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
         abort(404)
-    posts = Post.query.filter_by(author_id=user.id).all()
-    answers = Answer.query.filter_by(author_id=user.id).all()
+    posts = Post.query.order_by(Post.timestamp.desc()).filter_by(author_id=user.id).all()
+    answers = Answer.query.order_by(Answer.timestamp.desc()).filter_by(author_id=user.id).all()
     return render_template('user.html',user=user,posts=posts,answers=answers)
 
 @main.route('/_follow')
@@ -209,3 +209,48 @@ def edit_profile():
     form.location.data = current_user.location
     form.gender.data = current_user.gender
     return render_template('edit_profile.html',form=form)
+
+@main.route('/disable/<int:id>')
+@login_required
+@permission_required(Permission.MODERATE_COMMENTS)
+def disable(id):
+    answer = Answer.query.get_or_404(id)
+    answer.disabled = True
+    db.session.add(answer)
+    db.session.commit()
+    return redirect(url_for('.post',id=answer.post_id,page=request.args.get('page',1,type=int)))
+
+@main.route('/enable/<int:id>')
+@login_required
+@permission_required(Permission.MODERATE_COMMENTS)
+def enable(id):
+    answer = Answer.query.get_or_404(id)
+    answer.disabled = False
+    db.session.add(answer)
+    db.session.commit()
+    return redirect(url_for('.post',id=answer.post_id,page=request.args.get('page',1,type=int)))
+
+@main.route('/edit-profile/<int:id>',methods=['GET','POST'])
+@login_required
+@admin_required
+def edit_profile_admin(id):
+    user = User.query.get_or_404(id)
+    form = EditProfileAdminForm(user=user)
+    if form.validate_on_submit():
+        user.email = form.email.data
+        user.username = form.username.data
+        user.confirmed = form.confirmed.data
+        user.role = Role.query.get(form.role.data)
+        user.location = form.location.data
+        user.about_me =form.about_me.data
+        db.session.add(user)
+        db.session.commit()
+        flash('该用户资料已完成修改.')
+        return redirect(url_for('.user',username=user.username))
+    form.email.data = user.email
+    form.username.data = user.username
+    form.confirmed.data = user.confirmed
+    form.role.data = user.role_id
+    form.location.data = user.location
+    form.about_me.data = user.about_me
+    return render_template('edit_profile.html',form=form,user=user)

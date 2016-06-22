@@ -88,7 +88,7 @@ class Post(db.Model):
     @staticmethod
     def on_changed_body(target,value,oldvalue,initiator):
         allowed_tags = ['a','abbr','acronym','b','blockquote','code','em',
-                        'i','li','ol','pre','strong','ul','h1','h2','h3','p']
+                        'i','li','ol','pre','strong','ul','h1','h2','h3','p','u']
         target.body_html = bleach.linkify(bleach.clean(markdown(value,output_format='html'),
                                                        tags=allowed_tags,strip=True))
     def is_answerd_by(self,user):
@@ -114,7 +114,7 @@ class Answer(db.Model):
     @staticmethod
     def on_changed_body(target,value,oldvalue,initiator):
         allowed_tags = ['a','abbr','acronym','b','blockquote','code','em',
-                        'i','li','ol','pre','strong','ul','h1','h2','h3','p']
+                        'i','li','ol','pre','strong','ul','h1','h2','h3','p','u','span']
         target.body_html = bleach.linkify(bleach.clean(markdown(value,output_format='html'),
                                                         tags=allowed_tags,strip=True))
 
@@ -206,6 +206,9 @@ class User(UserMixin,db.Model):
         return self.role is not None and \
                (self.role.permissions & permissions) == permissions
 
+    def is_administrator(self):
+        return self.can(Permission.ADMINISTER)
+
     def is_following(self,user):
         return self.followed.filter_by(followed_id=user.id).first() is not None
 
@@ -231,6 +234,10 @@ class User(UserMixin,db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url,hash=hash,size=size,default=default,rating=rating
         )
+    @property
+    def followed_answers(self):
+        return Answer.query.join(Follow,Follow.followed_id == Answer.author_id).filter(Follow.follower_id==self.id)
+
 
 
 

@@ -47,8 +47,12 @@
                             {% else %}
                                 <button id="follow" class="unfollow">取消关注</button>
                             {% endif %}
-                        {% else %}
+                        {% endif %}
+                        {% if user == current_user %}
                             <a href="{{ url_for('.edit_profile')}}"><button type="button" class="btn btn-info">编辑我的资料</button></a>
+                        {% endif %}
+                        {% if current_user.is_administrator() %}
+                            <a  href="{{ url_for('.edit_profile_admin',id=user.id)}}"><button type="button" class="btn btn-danger">编辑该用户资料 [管理员]</button></a>
                         {% endif %}
                     </div>
                 </div>
@@ -87,7 +91,13 @@
                                     {{ answer.post.body }}
                                 </a>
                             </div>
-                            <div class="user-answer-answer">{{ answer.body }}</div>
+                            <div class="user-answer-answer">
+                                {% if answer.body_html %}
+                                    {{ answer.body_html | safe}}
+                                {% else %}
+                                    {{ answer.body }}
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                     {% endif %}
