@@ -4,12 +4,12 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
 
-from flask import render_template,abort,redirect,url_for,flash,request,current_app,make_response,jsonify
+from flask import render_template,abort,redirect,url_for,flash,request,current_app,make_response,jsonify,get_template_attribute
 from flask.ext.login import login_required,current_user
 from . import main
 from .forms import PostForm,AnswerForm,EditProfileForm,EditProfileAdminForm
 from ..models import Post,User,Answer,Permission,Role
-from .. import db
+from .. import db,moment
 from ..decorators import admin_required,permission_required
 
 
@@ -30,6 +30,22 @@ def index():
     )
     posts = pagination.items
     return render_template('index.html',posts=posts,pagination=pagination)
+
+@main.route('/_load_questions', methods=['POST'])
+def _load_questions():
+    """加载问题HTML"""
+    page = request.args.get('page', type=int, default=1)
+    query = Post.query
+    pagination = query.order_by(Post.timestamp.desc()).paginate(
+        page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False
+    )
+    macro = get_template_attribute("_add_questions.html", "render_posts")
+    posts = pagination.items
+    return jsonify({'result': True,
+                    'html': macro(posts),
+                    'posts':[post.timestamp for post in posts],
+                    'post_id':[post.id for post in posts]
+                    })
 
 
 @main.route('/_question',methods=['POST'])

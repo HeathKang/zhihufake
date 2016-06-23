@@ -9,7 +9,10 @@
 <div class="top-title-left">
 	<span class="glyphicon glyphicon-list-alt"></span>最新动态
 </div>
+<div class="post">
     {% include '_posts.html' %}
+</div>
+<button id="btn-questions" class=" btn-primary ladda-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
 {% if pagination %}
 <div class="pagination">
 	{{ macros.pagination_widget(pagination,'.index') }}
@@ -20,6 +23,28 @@
 
 {% block scripts%}
 {{ super() }}
+<script type=text/javascript>
+var page = 2;
+
+$('button#btn-questions').click(function () {
+    $.ajax({
+        url: '/_load_questions?page=' + page,
+        method: 'post',
+        dataType: 'json'
+    }).done(function(response){
+        if (response.result) {
+            $('div.post').append(response.html);
+            page++;
+            for (var i=0;i<response.posts.length;i++)
+            {
+             $("div#" + response.post_id[i]).append(moment(response.posts[0]).fromNow() );
+             };
+        }
+    });
+});
+
+
+</script>
 
 
 {% endblock %}
