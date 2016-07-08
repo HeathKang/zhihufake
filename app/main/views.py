@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 import sys
 reload(sys)
-sys.setdefaultencoding('utf8')
+sys.setdefaultencoding('utf8')  #fix unicode problem
+
 
 from flask import render_template,abort,redirect,url_for,flash,request,current_app,make_response,jsonify,get_template_attribute
 from flask.ext.login import login_required,current_user
 from . import main
 from .forms import PostForm,AnswerForm,EditProfileForm,EditProfileAdminForm
-from ..models import Post,User,Answer,Permission,Role
+from ..models import Post,User,Answer,Permission,Role,Comment
 from .. import db,moment
 from ..decorators import admin_required,permission_required
 
@@ -45,6 +46,67 @@ def _load_questions():
                     'html': macro(posts),
                     'posts':[post.timestamp for post in posts],
                     'post_id':[post.id for post in posts]
+                    })
+
+@main.route('/_comment', methods=['GET','POST'])
+def _comment():
+    """加载评论HTML"""
+
+    id = request.args.get('answer_id')
+    answer = Answer.query.get_or_404(id)
+    page = request.args.get('page', type=int, default=1)
+    comment =request.args.get('comment')
+    if current_user.can(Permission.COMMENT) and comment is not None:
+        comment = Comment(body=comment,
+                          author=current_user._get_current_object(),
+                          answer_id=id)
+        db.session.add(comment)
+        db.session.commit()
+        page = -1
+    if page == -1:
+        page = answer.comments.count() / 2
+    pagination = Comment.query.order_by(Comment.timestamp).filter_by(answer_id=id).paginate(
+        page,per_page=2,error_out=False
+    )
+    macro_comment = get_template_attribute("_comments.html", "render_comments")
+    macro_page = get_template_attribute("_page.html", "render_page")
+    comments = pagination.items
+    return jsonify({'result': True,
+                    'comment_html': macro_comment(comments),
+                    'page_html':macro_page(pagination),
+                    'comments_timestamp':[comment.timestamp for comment in comments],
+                    'comments_id':[comment.id for comment in comments]
+                    })
+
+@main.route('/_add_comment', methods=['GET','POST'])
+def _add_comment():
+    """添加评论HTML"""
+
+    id = request.args.get('answer_id')
+    answer = Answer.query.get_or_404(id)
+    comment =request.args.get('comment')
+    answers = Answer.query.get_or_404(id)
+    page = 1
+    result= False
+    if current_user.can(Permission.COMMENT):
+        comment = Comment(body=comment,
+                          author=current_user._get_current_object(),
+                          answer_id=id)
+        db.session.add(comment)
+        db.session.commit()
+        page = (answer.comments.count()-1)/2 + 1
+        result=True
+    pagination = Comment.query.order_by(Comment.timestamp).filter_by(answer_id=id).paginate(
+        page,per_page=2,error_out=False
+    )
+    macro_comment = get_template_attribute("_comments.html", "render_comments")
+    macro_page = get_template_attribute("_page.html", "render_page")
+    comments = pagination.items
+    return jsonify({'result': result,
+                    'comment_html': macro_comment(comments),
+                    'page_html': macro_page(pagination),
+                    'comments_timestamp': [comment.timestamp for comment in comments],
+                    'comments_id': [comment.id for comment in comments]
                     })
 
 

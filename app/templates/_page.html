@@ -1,0 +1,37 @@
+<meta charset="UTF-8">
+{% macro render_page(pagination) %}
+
+    <ul class="pagination pagination-sm tight">
+        <li{% if not pagination.has_prev %} class="disabled"{% endif %}>
+            <a href="#" class="comment-page page-content" id="{% if pagination.has_prev %}{{ pagination.prev_num }}{%else%}disabled{% endif %}">
+                &laquo;
+            </a>
+        </li>
+        {% for p in pagination.iter_pages() %}
+            {% if p %}
+                {% if p == pagination.page %}
+                <li class="active">
+                    <a href="#" class="comment-page page-content" id="{{ p }}">{{ p }}</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="#" class="comment-page page-content" id="{{ p }}">{{ p }}</a>
+                </li>
+                {% endif %}
+            {% else %}
+            <li class="disabled"><a href="#">&hellip;</a></li>
+            {% endif %}
+        {% endfor %}
+        <li{% if not pagination.has_next %} class="disabled"{% endif %}>
+            <a href="#" class="comment-page page-content" id="{% if pagination.has_next %}{{ pagination.next_num }}{% else %}disabled{% endif %}">
+                &raquo;
+            </a>
+        </li>
+    </ul>
+<div class="panel-footer">
+   <form method="post" role="form" class="comment-form">
+       <textarea class="comment-content" name="commentform" rows="2" cols="70" ></textarea>
+       <a href="#"  class="btn btn-default" id="comment-submit">评论</a>
+   </form>
+</div>
+{% endmacro %}

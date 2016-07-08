@@ -37,7 +37,7 @@ $('button#btn-questions').click(function () {
             page++;
             for (var i=0;i<response.posts.length;i++)
             {
-             $("div#" + response.post_id[i]).append(moment(response.posts[0]).fromNow() );
+             $("div#" + response.post_id[i]).append(moment(response.posts[i]).fromNow() );
              };
         }
     });

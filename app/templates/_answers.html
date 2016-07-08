@@ -43,6 +43,15 @@
                 {% endif %}
             </div>
             <div class="answer-foot">
+                <a href="#" class="comment" id="{{ answer.id }}">
+                    {% if answer.comments.count() != 0 %}
+                        <span class="badge">{{ answer.comments.count()}}</span>
+                        条评论
+                    {% else %}
+                        添加评论
+                    {% endif %}
+                </a>
+
                 {% if answer.author_id == current_user.id %}
                 <a href="{{url_for('.edit_answer',id=answer.id)}}">
                 <span class="label label-primary">修改</span></a>
@@ -58,6 +67,20 @@
                 {% endif %}
             </div>
         </div>
+        <div class="comment-content-all panel panel-default" id="{{ answer.id }}-comment">
+
+        </div>
+
+
     </li>
     {% endfor %}
+
 </ul>
+<div class="modal fade bs-example-modal-sm hide" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="comment-message">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            对不起，请尝试<a href="{{url_for('auth.login')}}">登陆</a>后评论！
+        </div>
+    </div>
+</div>
+

@@ -3,7 +3,7 @@
 <ul class="pagination">
     <li{% if not pagination.has_prev %} class="disabled"{% endif %}>
         <a href="{% if pagination.has_prev %}{{ url_for(endpoint,page = pagination.prev_num,**kwargs)}}{{ fragment}}
-            {% else %}#{% endif %}">
+            {% else %}#{% endif %}"class="page-content" id="{{ pagination.prev_num }}">
             &laquo;
         </a>
     </li>
@@ -11,11 +11,11 @@
         {% if p %}
             {% if p == pagination.page %}
             <li class="active">
-                <a href="{{ url_for(endpoint,page = p,**kwargs) }}">{{ p }}</a>
+                <a href="{{ url_for(endpoint,page = p,**kwargs) }}"  class="page-content" id="{{ p }}">{{ p }}</a>
             </li>
             {% else %}
             <li>
-                <a href="{{ url_for(endpoint,page = p,**kwargs) }}">{{ p }}</a>
+                <a href="{{ url_for(endpoint,page = p,**kwargs) }}" class="page-content" id="{{ p }}">{{ p }}</a>
             </li>
             {% endif %}
         {% else %}
@@ -24,7 +24,7 @@
     {% endfor %}
     <li{% if not pagination.has_next %} class="disabled"{% endif %}>
         <a href="{% if pagination.has_next %}{{ url_for(endpoint,
-            page = pagination.next_num,**kwargs) }}{% else %}#{% endif %}">
+            page = pagination.next_num,**kwargs) }}{% else %}#{% endif %}" class="page-content" id="{{ pagination.next_num }}">
             &raquo;
         </a>
     </li>

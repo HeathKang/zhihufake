@@ -124,7 +124,7 @@
         $(this).bind("click",function(){
             var id = $(this).attr('id');
             $.getJSON('/_add_agree',
-                {answer_id:$(this).attr('id')},
+                {answer_id:id},
                 function(json) {
                     $("#agree-count-" + id ).text(json.agree_count);
             });

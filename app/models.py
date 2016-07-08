@@ -111,6 +111,8 @@ class Answer(db.Model):
     agree = db.Column(db.Integer,default=0)
     disagree = db.Column(db.Integer,default=0)
 
+    comments = db.relationship('Comment',backref='answer',lazy='dynamic')
+
     @staticmethod
     def on_changed_body(target,value,oldvalue,initiator):
         allowed_tags = ['a','abbr','acronym','b','blockquote','code','em',
@@ -122,6 +124,15 @@ class Answer(db.Model):
         return self.userss.filter_by(id=user.id).first() is not None
 
 db.event.listen(Answer.body,'set',Answer.on_changed_body)
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer,primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime,index=True,default=datetime.utcnow)
+    disabled = db.Column(db.Boolean)
+    author_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    answer_id = db.Column(db.Integer,db.ForeignKey('answers.id'))
 
 
 
@@ -139,6 +150,7 @@ class User(UserMixin,db.Model):
     confirmed = db.Column(db.Boolean,default=False)
     posts = db.relationship('Post',backref='author',lazy='dynamic')
     answers = db.relationship('Answer',backref='author',lazy='dynamic')
+    comments = db.relationship('Comment',backref='author',lazy='dynamic')
     avatar_hash = db.Column(db.String(32))
     location = db.Column(db.String(64))
     gender = db.Column(db.Boolean,default=True)

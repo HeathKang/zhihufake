@@ -412,6 +412,10 @@ a.post-link:hover {
     width:100px;
     float:right;
 }
+.tight {
+    margin:1px,1px,1px,1px;
+    padding:0,0,0,0;
+}
 
 
 
