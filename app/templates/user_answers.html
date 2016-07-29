@@ -1,17 +1,17 @@
 {% extends "base.html" %}
+{% import "_macros.html" as macros %}
 
 {% block page_content %}
 <div class="main-wrap">
     <div class="main-content">
-    {% include "_user.html"%}
+        {% include "_user.html"%}
+        </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2 class="panel-title"><a href="{{ url_for('.user_answers',username=user.username)}}">回答
-                    <span class="glyphicon glyphicon-chevron-right"></span></a></h2>
+                <h3 class="panel-title">回答</h3>
             </div>
             <div class="panel-body">
                 {% for answer in answers %}
-                    {% if loop.index0 <=2 %}
                     <div class="user-answer" >
                         <div class="user-answer-agree">
                             <div class="user-answer-agree-count">{{ answer.agree }}</div>
@@ -28,39 +28,12 @@
                             </div>
                         </div>
                     </div>
-                    {% endif %}
                 {% endfor %}
+                {% if pagination %}
+            <div class="pagination">
+                {{ macros.pagination_widget(pagination,'.user_answers',username=user.username) }}
             </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2 class="panel-title"><a href="{{ url_for('.user_questions',username=user.username)}}">提问
-                    <span class="glyphicon glyphicon-chevron-right"></span></a></h2>
-            </div>
-            <div class="panel-body">
-                {% for post in posts %}
-                    {% if loop.index0 <=2 %}
-                    <div class="user-answer" >
-
-                        <div class="user-post-main">
-                            <div class="user-answer-post">
-                                <a href="{{ url_for('.post',id=post.id)}}">
-                                    {{ post.body }}
-                                </a>
-                            </div>
-                            <div class="user-answer-answer">创建于{{ moment(post.timestamp).fromNow() }} 共有{{ post.answers.count() }}条回答</div>
-                        </div>
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">最新动态</h3>
-            </div>
-            <div class="panel-body">
-                Panel content
+            {% endif %}
             </div>
         </div>
     </div>

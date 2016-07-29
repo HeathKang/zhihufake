@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block page_content %}
+<div class="main-wrap">
+    <div class="main-content">
+        {% include "_user.html"%}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">提问</h3>
+            </div>
+            <div class="panel-body">
+                {% for post in questions %}
+                    <div class="user-answer" >
+                        <div class="user-post-main">
+                            <div class="user-answer-post">
+                                <a href="{{ url_for('.post',id=post.id)}}">
+                                    {{ post.body }}
+                                </a>
+                            </div>
+                            <div class="user-answer-answer">创建于{{ moment(post.timestamp).fromNow() }} 共有{{ post.answers.count() }}条回答</div>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% if pagination %}
+            <div class="pagination">
+                {{ macros.pagination_widget(pagination,'.user_questions',username=user.username) }}
+            </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="main-barside">
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+<script type=text/javascript>
+  $(function(){
+    $("button#follow").click(function(){
+        var classname=$(this).attr("class");
+        var username=$("div.username").attr('id');
+        var followers_count=parseInt($("#follower").text());
+        if(classname=='following'){
+            $("button#follow").attr("class","unfollow");
+            $("button#follow").text("取消关注");
+            $.getJSON('/_follow',
+                {username:username},
+                function() {
+                    $("#follower").text(followers_count + 1);
+                });
+
+            }
+        else{
+            $("button#follow").attr("class","following");
+            $("button#follow").text("关注");
+            $.getJSON('/_unfollow',
+                {username:username},
+                function(json) {
+                    $("#follower").text(followers_count - 1);
+            });
+        }
+    });
+  });
+</script>
+{% endblock %}

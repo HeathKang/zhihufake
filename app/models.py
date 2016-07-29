@@ -14,6 +14,7 @@ from markdown import markdown
 import bleach
 import flask_whooshalchemyplus
 from jieba.analyse import ChineseAnalyzer
+from flask_sqlalchemy import Pagination
 
 agrees = db.Table('agrees',
                   db.Column('users_id',db.Integer,db.ForeignKey('users.id')),
@@ -104,6 +105,7 @@ class Answer(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
+    pure_body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime,index=True,default=datetime.utcnow)
     disabled = db.Column(db.Boolean)
     author_id = db.Column(db.Integer,db.ForeignKey('users.id'))
@@ -119,6 +121,9 @@ class Answer(db.Model):
                         'i','li','ol','pre','strong','ul','h1','h2','h3','p','u','span']
         target.body_html = bleach.linkify(bleach.clean(markdown(value,output_format='html'),
                                                         tags=allowed_tags,strip=True))
+        pure_allowed_tags = []
+        target.pure_body = bleach.linkify(bleach.clean(markdown(value,output_format='html'),
+                                                        tags=pure_allowed_tags,strip=True))
 
     def is_agreed_by(self,user):
         return self.userss.filter_by(id=user.id).first() is not None
@@ -150,6 +155,7 @@ class User(UserMixin,db.Model):
     confirmed = db.Column(db.Boolean,default=False)
     posts = db.relationship('Post',backref='author',lazy='dynamic')
     answers = db.relationship('Answer',backref='author',lazy='dynamic')
+    angrees = db.Column(db.Integer,default=0)                #users sum of agrees
     comments = db.relationship('Comment',backref='author',lazy='dynamic')
     avatar_hash = db.Column(db.String(32))
     location = db.Column(db.String(64))
@@ -189,6 +195,18 @@ class User(UserMixin,db.Model):
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
+
+    @property
+    def followed_posts(self):
+        posts = Post.query.\
+            join(Follow,Follow.followed_id == Post.author_id).filter(Follow.follower_id == self.id)
+        return posts
+
+    @property
+    def followed_answers(self):
+        answers = Answer.query.\
+            join(Follow, Follow.followed_id == Answer.author_id).filter(Follow.follower_id == self.id)
+        return answers
 
     @password.setter
     def password(self,password):
@@ -270,6 +288,22 @@ login_manager.anonymous_user = AnonymousUser
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+def paginate1(query, page, per_page=20, error_out=True):
+    if error_out and page < 1:
+        abort(404)
+    items = query.limit(per_page).offset((page - 1) * per_page).all()
+    if not items and page != 1 and error_out:
+        abort(404)
+
+    # No need to count if we're on the first page and there are fewer
+    # items than we expected.
+    if page == 1 and len(items) < per_page:
+        total = len(items)
+    else:
+        total = query.order_by(None).count()
+
+    return Pagination(query, page, per_page, total, items)
 
 
 

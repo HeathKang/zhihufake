@@ -1,0 +1,70 @@
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="username" id="{{ user.username }}">
+                    <h1>{{ user.username }}</h1>
+                </div>
+                <div class="user-profile">
+                    <img class="medium-avatar" src="{{ user.gravatar(size=256)}}"></img>
+                    <div class="user-profile-header">
+                        <div class="user-profile-description">
+                            <div class="edit">
+                                <span class="glyphicon glyphicon-map-marker">
+                                    {% if user.location %}
+                                    <a href="http://gaode.com/search?query={{ user.location }}">{{ user.location}}</a>
+                                    {% else %}
+                                    中国
+                                    {% endif %}
+                                </span>
+                                <span class="gender ">{% if user.gender == 0 %}女{% else %}男{% endif %}</span>
+                            </div>
+                            <div class="edit">
+                                <a class="more-profile"  href="#">
+                                    <span class="edit glyphicon glyphicon-arrow-right"></span>
+                                    <span >详细资料</span>
+                                </a>
+                            </div>
+                            <div class="user-profile-word">
+                                <span>{%if user.about_me%}{{ user.about_me }}{% else %}想了些什么却没有写{% endif %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-fulfillment">
+                    <div class="edit user-fulfillment-left">
+                        <span class="left-info">获得</span>
+                        <span class="edit glyphicon glyphicon-thumbs-up"> </span>
+                        <span>{{ user.angrees }}赞数</span>
+                    </div>
+                    <div class="user-fulfillment-right">
+                        {% if current_user.can(Permission.FOLLOW) and user != current_user %}
+                            {% if not current_user.is_following(user) %}
+                                <button id="follow" class="following">关注</button>
+                            {% else %}
+                                <button id="follow" class="unfollow">取消关注</button>
+                            {% endif %}
+                        {% endif %}
+                        {% if user == current_user %}
+                            <a href="{{ url_for('.edit_profile')}}"><button type="button" class="btn btn-info">编辑我的资料</button></a>
+                        {% endif %}
+                        {% if current_user.is_administrator() %}
+                            <a  href="{{ url_for('.edit_profile_admin',id=user.id)}}"><button type="button" class="btn btn-danger">编辑该用户资料 [管理员]</button></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer" id="footer">
+                <a class="edit user-html" href="{{ url_for('main.user',username=user.username)}}">
+                    <span class="edit user-active glyphicon glyphicon-home"> </span>
+                </a>
+                <a class="edit" href="{{url_for('.user_questions',username=user.username)}}">提问{{ user.posts.count() }}</a>
+                <a class="edit" href="{{url_for('.user_answers',username=user.username)}}">回答{{ user.answers.count() }}</a>
+                <a href="{{ url_for('.followed',username=user.username )}}" class="edit followed">
+                    <span>关注了<strong id="followed">{{ user.followed.count()}}</strong>人</span>
+                </a>
+                <a href="{{ url_for('.followers',username=user.username )}}" class="edit follower">
+                    <span>关注者
+                        <strong id="follower">{{ user.followers.count()}}</strong>人
+                    </span>
+                </a>
+            </div>
+        </div>

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}知乎fake - 搜索结果 {% endblock %}
+
+{% block page_content %}
+<div>
+
+  <!-- 导航页面标签 -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">内容</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">用户</a></li>
+
+  </ul>
+
+  <!-- 页面内容 -->
+  <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="home">
+          {% for answer in answers %}
+                <div class="user-answer" >
+                    <div class="user-answer-agree">
+                        <div class="user-answer-agree-count">{{ answer.agree }}</div>
+                        <div class="user-answer-agree-agree">赞同</div>
+                    </div>
+                    <div class="user-answer-main">
+                        <div class="user-answer-post">
+                            <a href="{{ url_for('.post',id=answer.post.id)}}">
+                                {{ answer.post.body }}
+                            </a>
+                        </div>
+                        <div class="search-answer-answer">
+                            {{ answer.pure_body }}
+                        </div>
+                    </div>
+                </div>
+          {% endfor %}
+
+          {% for post in posts %}
+                {% if post.answer not in answers %}
+                <div class="user-answer" >
+                    <div class="user-answer" >
+                        <div class="user-post-main">
+                            <div class="user-answer-post">
+                                <a href="{{ url_for('.post',id=post.id)}}">
+                                    {{ post.body }}
+                                </a>
+                            </div>
+                            <div class="user-answer-answer">创建于{{ moment(post.timestamp).fromNow() }} 共有{{ post.answers.count() }}条回答</div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+          {% endfor %}
+      </div>
+
+
+      <div role="tabpanel" class="tab-pane" id="profile">
+      {% for user in users %}
+        <div class="follower-list">
+            <a width='20' href="{{ url_for('.user', username = user.username) }}">
+                <img class="img-rounded" src="{{ user.gravatar(size=24) }}">
+                    {{ user.username }}
+            </a>
+
+            <a class="follow-right edit" href="{{ url_for('.followed',username=user.username )}}">
+                <strong>关注了</strong> <span>{{user.followed.count()}}</span>人
+            </a>
+            <a class="follow-right edit" href="{{ url_for('.followers',username=user.username )}}">
+                <strong>关注者</strong> <span>{{user.followers.count()}}</span>人
+            </a>
+        </div>
+      {% endfor %}
+      </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+{{ super() }}
+
+<script type=text/javascript>
+$(document).ready(function(){
+    $(".search-answer-answer").each(function()
+        { var maxwidth=120;
+         if($(this).text().length>maxwidth){
+         $(this).text($(this).text().substring(0,maxwidth));
+        $(this).html($(this).html()+'...');
+        }
+    });
+ });
+</script>
+{% endblock %}

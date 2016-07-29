@@ -8,15 +8,37 @@
 {% block page_content %}
 <div class="top-title-left">
 	<span class="glyphicon glyphicon-list-alt"></span>最新动态
+
 </div>
-<div class="post">
-    {% include '_posts.html' %}
+	<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="{% if show_post %} active {% endif %}"><a href="{{ url_for('.show_post')}}">问题</a></li>
+    <li role="presentation" class="{% if not show_post %} active {% endif %}"><a href="{{ url_for('.show_answer')}}">答案</a></li>
+
+	</ul>
+<div class="tab-content">
+	<div class="followed_posts {% if show_post %} active {% else %} hide {% endif %}">
+		<div class="post">
+			{% include '_posts.html' %}
+		</div>
+		<button id="btn-questions" class=" btn-primary ladda-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
+		{% if pagination %}
+		<div class="pagination">
+			{{ macros.pagination_widget(pagination,'.index') }}
+		</div>
+	</div>
+	<div class="followed_answers {% if not show_post %} active {% else %} hide {% endif %}">
+		<div class="answer">
+			{% include '_index_answers.html'%}
+		</div>
+		<button id="btn-answers" class=" btn-primary ladda-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
+		{% if pagination %}
+		<div class="pagination">
+			{{ macros.pagination_widget(pagination,'.index') }}
+		</div>
+		{% endif %}
+	</div>
 </div>
-<button id="btn-questions" class=" btn-primary ladda-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
-{% if pagination %}
-<div class="pagination">
-	{{ macros.pagination_widget(pagination,'.index') }}
-</div>
+
 {% endif %}
 {% endblock %}
 
@@ -28,7 +50,7 @@ var page = 2;
 
 $('button#btn-questions').click(function () {
     $.ajax({
-        url: '/_load_questions?page=' + page,
+        url: '/_load_questions?page=' + page + '&content=index',
         method: 'post',
         dataType: 'json'
     }).done(function(response){
@@ -42,6 +64,29 @@ $('button#btn-questions').click(function () {
         }
     });
 });
+
+$('button#btn-answers').click(function () {
+    $.ajax({
+        url: '/_load_answers?page=' + page + '&content=index',
+        method: 'post',
+        dataType: 'json'
+    }).done(function(response){
+        if (response.result) {
+            $('div.answer').append(response.html);
+            page++;
+        }
+    });
+});
+
+$(document).ready(function(){
+    $(".search-answer-answer").each(function()
+        { var maxwidth=120;
+         if($(this).text().length>maxwidth){
+         $(this).text($(this).text().substring(0,maxwidth));
+        $(this).html($(this).html()+'...');
+        }
+    });
+ });
 
 
 </script>

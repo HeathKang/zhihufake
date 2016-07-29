@@ -9,37 +9,58 @@ from flask import render_template,abort,redirect,url_for,flash,request,current_a
 from flask.ext.login import login_required,current_user
 from . import main
 from .forms import PostForm,AnswerForm,EditProfileForm,EditProfileAdminForm
-from ..models import Post,User,Answer,Permission,Role,Comment
+from ..models import Post,User,Answer,Permission,Role,Comment,paginate1
 from .. import db,moment
 from ..decorators import admin_required,permission_required
 
 
 @main.route('/',methods=['GET','POST'])
 def index():
-    '''form = PostForm()
-    if current_user.can(Permission.WRITE_ARTICLES) and form.validate_on_submit():
-        post = Post(body=form.body.data,
-                    author=current_user._get_current_object())
-        db.session.add(post)
-        db.session.commit()
-        return redirect(url_for('.index'))##指向哪里的页面'''
     page = request.args.get('page',1,type=int)
-    ##all（）换成paginate（）显示每页的数据
-    query = Post.query
-    pagination = query.order_by(Post.timestamp.desc()).paginate(
-        page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False
-    )
-    posts = pagination.items
-    return render_template('index.html',posts=posts,pagination=pagination)
+    show_post = True                            #show_post =True show followed_post,or show followed_answer
+    if current_user.is_authenticated:
+        show_post = bool(request.cookies.get('show_post', default='1'))
+        if show_post:
+            query = current_user.followed_posts
+            content = Post
+        else:
+            query = current_user.followed_answers
+            content = Answer
+
+    else:
+        show_post = bool(request.cookies.get('show_post', default='1'))
+        if show_post:
+            query = Post.query
+            content = Post
+        else:
+            query = Answer.query
+            content = Answer
+    pagination = query.order_by(content.timestamp.desc()).paginate(page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False)
+    if show_post:
+        posts = pagination.items
+        answers = []
+    else:
+        answers = pagination.items
+        posts = []
+    return render_template('index.html',posts=posts,answers=answers,pagination=pagination,show_post=show_post)
+
+
 
 @main.route('/_load_questions', methods=['POST'])
 def _load_questions():
     """加载问题HTML"""
     page = request.args.get('page', type=int, default=1)
-    query = Post.query
-    pagination = query.order_by(Post.timestamp.desc()).paginate(
-        page,per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],error_out=False
-    )
+    content = request.args.get('content')
+    if current_user.is_authenticated and content != 'all':
+        query = current_user.followed_posts
+        content = Post
+    else:
+        query = Post.query
+        content = Post
+
+    pagination = query.order_by(content.timestamp.desc()).paginate(page,
+                                                                   per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+                                                                   error_out=False)
     macro = get_template_attribute("_add_questions.html", "render_posts")
     posts = pagination.items
     return jsonify({'result': True,
@@ -47,6 +68,77 @@ def _load_questions():
                     'posts':[post.timestamp for post in posts],
                     'post_id':[post.id for post in posts]
                     })
+
+
+
+@main.route('/_load_answers', methods=['POST'])
+def _load_answers():
+    """加载答案"""
+    page = request.args.get('page', type=int, default=1)
+    content = request.args.get('content')
+    if current_user.is_authenticated and content !='all':
+        query = current_user.followed_answers
+        content = Answer
+    else:
+        query = Answer.query
+        content = Answer
+    pagination = query.order_by(content.timestamp.desc()).paginate(page,
+                                                                   per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+                                                                   error_out=False)
+    macro = get_template_attribute("_add_answers.html", "render_answers")
+    answers = pagination.items
+    return jsonify({'result': True,
+                    'html': macro(answers),
+                    'answers':[answer.timestamp for answer in answers],
+                    'answer_id':[answer.id for answer in answers]
+                    })
+
+@main.route('/show_post')
+def show_post():
+    resp = make_response(redirect(url_for('.index')))
+    resp.set_cookie('show_post','1')
+    return resp
+
+@main.route('/show_answer')
+def show_answer():
+    resp = make_response(redirect(url_for('.index')))
+    resp.set_cookie('show_post','')
+    return resp
+
+@main.route('/show_all_posts')
+def show_all_posts():
+    resp = make_response(redirect(url_for('.all')))
+    resp.set_cookie('show_all_posts','1')
+    return resp
+
+@main.route('/show_all_answers')
+def show_all_answers():
+    resp = make_response(redirect(url_for('.all')))
+    resp.set_cookie('show_all_posts','')
+    return resp
+
+@main.route('/all')
+def all():
+    page = request.args.get('page', 1, type=int)
+    show_post = True  # show_post =True show followed_post,or show followed_answer
+    show_post = bool(request.cookies.get('show_all_posts', default='1'))
+    if show_post:
+        query = Post.query
+        content = Post
+    else:
+        query = Answer.query
+        content = Answer
+    pagination = query.order_by(content.timestamp.desc()).paginate(page,
+                                                                   per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+                                                                   error_out=False)
+    if show_post:
+        posts = pagination.items
+        answers = []
+    else:
+        answers = pagination.items
+        posts = []
+    return render_template('all.html', posts=posts, answers=answers, pagination=pagination, show_post=show_post)
+
 
 @main.route('/_comment', methods=['GET','POST'])
 def _comment():
@@ -171,11 +263,13 @@ def _add_agree():
     user = current_user._get_current_object()
     if answer.is_agreed_by(user):
         answer.agree -= 1
+        answer.author.angrees -=1
         answer.userss.remove(user)
 
     else:
         answer.userss.append(user)
         answer.agree += 1
+        answer.author.angrees += 1
     db.session.add(answer)
     db.session.commit()
     return jsonify({'agree_count' : answer.agree})
@@ -233,6 +327,35 @@ def followed(username):
     followers =[item.followed for item in pagination.items ]
     return render_template('followed.html',user=user,pagination=pagination,followers=followers)
 
+@main.route('/user_answers/<username>')
+def user_answers(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('不存在该用户')
+        return redirect(url_for('.index'))
+    answers = Answer.query.filter_by(author_id=user.id).all()
+    page = request.args.get('page', 1, type=int)
+    pagination =  Answer.query.filter_by(author_id=user.id).order_by(Answer.timestamp.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_ANSWERS_PER_PAGE'],
+        error_out=False)
+    answers = pagination.items
+    return render_template('user_answers.html',user=user,pagination=pagination,answers=answers)
+
+@main.route('/user_questions/<username>')
+def user_questions(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('不存在该用户')
+        return redirect(url_for('.index'))
+    questions = Post.query.filter_by(author_id=user.id).all()
+    page = request.args.get('page', 1, type=int)
+    pagination =  Post.query.filter_by(author_id=user.id).order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_ANSWERS_PER_PAGE'],
+        error_out=False)
+    questions = pagination.items
+    return render_template('user_questions.html',user=user,pagination=pagination,questions=questions)
+
+
 @main.route('/_search')
 def _search():
     key = request.args.get('key')
@@ -258,6 +381,25 @@ def _search():
                     'answer':answer2,
                     'answers_urls':answers_urls
                     })
+
+@main.route('/_search_all',methods=['GET','POST'])
+def _search_all():
+    key = request.form.get("search_key")
+    posts = Post.query.whoosh_search(key).all()
+    users = User.query.whoosh_search(key).all()
+    answers = Answer.query.whoosh_search(key).all()
+    user2,post2,answer2 = [],[],[]
+    url,user_urls,answers_urls = [],[],[]
+    '''post_answers=[ answer for answer in answers if answer.post in posts ]
+    post_haveanswer = [answer.post for answer in post_answers ]
+    posts =[post for post in posts if post not in post_haveanswer]
+    answers = [answer for answer in answers if answer not in post_answers]'''
+    if posts or answers or users:
+        return render_template('search.html',posts=posts, answers=answers,users=users)
+    else:
+        flash('对不起，找不到您想要的！')
+        return render_template('search.html',posts=posts, answers=answers,users=users)
+
 
 @main.route('/edit_answer/<int:id>',methods=['GET','POST'])
 @login_required

@@ -114,22 +114,29 @@
       var text = $(this).closest('div.comment-content-all').attr('id').split('-');
       var id = text[0];
       var comment = $(this).siblings('textarea').val();
+      if(comment){
       $.getJSON('/_add_comment',
                     { answer_id:id,
                      comment:comment },
                     function(json) {
-                    if (json.result) {
-                    $('div#'+id + '-comment').empty();
-                    $("html,body").animate({scrollTop:$('div#'+id + '-comment').offset().top},600);
-                    $('div#'+id + '-comment').append(json.comment_html);
-                    $('div#'+id + '-comment').append(json.page_html);
-                    for (var i=0;i<response.comments_id.length;i++)
-                        {
-                            $('div#'+id + '-comment').find('div#comment-'+response.comments_id[i]).append(moment(response.comments_timestamp[i]).fromNow());
+                        if (json.result) {
+                            $('div#'+id + '-comment').empty();
+                            $("html,body").animate({scrollTop:$('div#'+id + '-comment').offset().top},600);
+                            $('div#'+id + '-comment').append(json.comment_html);
+                            $('div#'+id + '-comment').append(json.page_html);
+                            for (var i=0;i<response.comments_id.length;i++)
+                                {
+                                    $('div#'+id + '-comment').find('div#comment-'+response.comments_id[i]).append(moment(response.comments_timestamp[i]).fromNow());
+                                };
+                        }else{
+                            $('#comment-message-login').modal('show');
                         };
-                    }
+
 
                });
+      }else{
+        $('#comment-message-content').modal('show');
+      }
     });
   });
 </script>

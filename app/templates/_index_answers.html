@@ -1,0 +1,19 @@
+{% for answer in answers %}
+<div class="user-answer" >
+    <div class="user-answer-agree">
+        <div class="user-answer-agree-count">{{ answer.agree }}</div>
+        <div class="user-answer-agree-agree">赞同</div>
+    </div>
+    <div class="user-answer-main">
+        <div class="user-answer-post">
+            <a href="{{ url_for('.post',id=answer.post.id)}}">
+                {{ answer.post.body }}
+            </a>
+        </div>
+        <div class="search-answer-answer">
+            {{ answer.pure_body }}
+        </div>
+        <span><a href="{{ url_for('.post',id=answer.post.id)}}">查看更多</a></span>
+    </div>
+</div>
+{% endfor %}
