@@ -212,6 +212,20 @@ def _question():
         db.session.commit()
         return redirect(url_for('.index'))##指向哪里的页面
 
+
+@main.route('/_re_post/<int:id>',methods=['GET','POST'])
+def _re_post(id):
+    answer = Answer.query.get_or_404(id)
+    post = answer.post
+    pagination = Answer.query.order_by(Answer.timestamp.asc()).filter_by(post_id = post.id).all()
+    answers = [answer.id for answer in pagination]
+
+    page = (answers.index(id) + 2)/2
+    id = post.id
+    return redirect(url_for('.post',page=page,id=id,_anchor='answer-'+str(answer.id)))
+
+
+
 @main.route('/post/<int:id>',methods=['GET','POST'])
 def post(id):
     post = Post.query.get_or_404(id)

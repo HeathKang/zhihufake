@@ -1,7 +1,7 @@
 <meta charset="UTF-8">
 <ul class="answers">
     {% for answer in answers %}
-    <li class="answer" >
+    <li class="answer" id="answer-{{ answer.id }}">
         <div class="vote">
                 <a href="#" class="up" id="{{ answer.id }}"><button class="button-up" id="b_{{ answer.id }}"title="大胆赞同" aria-pressed="false" >
                     <span class="glyphicon glyphicon-chevron-up vote-up"> </span>

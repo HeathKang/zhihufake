@@ -13,7 +13,7 @@
         <div class="search-answer-answer">
             {{ answer.pure_body }}
         </div>
-        <span><a href="{{ url_for('.post',id=answer.post.id)}}">查看更多</a></span>
+        <span><a href="{{ url_for('._re_post',id=answer.id)}}">查看更多</a></span>
     </div>
 </div>
 {% endfor %}
