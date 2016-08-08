@@ -2,7 +2,7 @@
 {% macro render_comments(comments) %}
 <ul class="comments">
     {% for comment in comments %}
-    <li class="comment" >
+    <div class="comment" >
         <div class="comment-content panel-body">
                 <div>
                     <div class="profile-thumbnail right">
@@ -19,7 +19,7 @@
                 <div class="comment-foot" id="comment-{{ comment.id }}">
                 </div>
         </div>
-    </li>
+    </div>
     {% endfor %}
 </ul>
 {% endmacro%}

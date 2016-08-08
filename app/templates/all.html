@@ -11,8 +11,8 @@
 
 </div>
 	<ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="{% if show_post %} active {% endif %}"><a href="{{ url_for('.show_all_posts')}}">问题</a></li>
-    <li role="presentation" class="{% if not show_post %} active {% endif %}"><a href="{{ url_for('.show_all_answers')}}">答案</a></li>
+    <li role="presentation" class="{% if show_post %} active {% endif %}"><a style="padding:5px 10px;" href="{{ url_for('.show_all_posts')}}">问题</a></li>
+    <li role="presentation" class="{% if not show_post %} active {% endif %}"><a style="padding:5px 10px;" href="{{ url_for('.show_all_answers')}}">答案</a></li>
 
 	</ul>
 <div class="tab-content">
@@ -20,7 +20,7 @@
 		<div class="post">
 			{% include '_posts.html' %}
 		</div>
-		<button id="btn-questions" class=" btn-primary ladda-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
+		<button id="btn-questions" class="btn btn-default long-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
 		{% if pagination %}
 		<div class="pagination">
 			{{ macros.pagination_widget(pagination,'.all') }}
@@ -30,7 +30,7 @@
 		<div class="answer">
 			{% include '_index_answers.html'%}
 		</div>
-		<button id="btn-answers" class=" btn-primary ladda-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
+		<button id="btn-answers" class="btn btn-default long-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
 		{% if pagination %}
 		<div class="pagination">
 			{{ macros.pagination_widget(pagination,'.all') }}
@@ -74,6 +74,10 @@ $('button#btn-answers').click(function () {
         if (response.result) {
             $('div.answer').append(response.html);
             page++;
+            for (var i=0;i<response.answers.length;i++)
+            {
+             $("div#answer-" + response.answer_id[i]).append(moment(response.answers[i]).fromNow() );
+             };
         }
     });
 });

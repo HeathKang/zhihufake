@@ -9,7 +9,7 @@ from . import auth
 from .. import db
 from ..models import User
 from ..email import send_email
-from .forms import LoginForm,RegistrationForm
+from .forms import LoginForm,RegistrationForm,ChangeEmailForm
 from flask.ext.login import login_user,login_required,logout_user,current_user
 
 
@@ -53,6 +53,32 @@ def confirm(token):
     else:
         flash('确认链接不可用或已经过期！')
     return redirect(url_for('main.index'))
+
+@auth.route('/setting',methods=['GET','POST'])
+@login_required
+def setting():
+    email_form = ChangeEmailForm()
+    if email_form.validate_on_submit():
+        if current_user.verify_password(email_form.password.data):
+            new_email = email_form.email.data
+            token = current_user.generate_email_change_token(new_email)
+            send_email(new_email, '请确认您的新邮件地址',
+                       'auth/email/change_email',
+                       user=current_user, token=token)
+            flash('确认新邮箱地址的邮件已发往您的新邮箱')
+            return redirect(url_for('main.index'))
+        else:
+            flash('邮箱地址或密码错误')
+    return render_template('auth/setting.html',email_form=email_form)
+
+@auth.route('/change-email/<token>')
+@login_required
+def change_email(token):
+	if current_user.change_email(token):
+		flash('你的E-mail地址已更新')
+	else:
+		flash('无效的请求')
+	return redirect(url_for('main.index'))
 
 
 @auth.route('/logout')

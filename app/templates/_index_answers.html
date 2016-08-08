@@ -1,19 +1,28 @@
 {% for answer in answers %}
 <div class="user-answer" >
-    <div class="user-answer-agree">
-        <div class="user-answer-agree-count">{{ answer.agree }}</div>
-        <div class="user-answer-agree-agree">赞同</div>
+    <div class="answer-profile-thumbnail">
+        <a href="{{ url_for('.user',username=answer.author.username ) }}">
+            <img class="img-rounded profile-thumbnail" src="{{ answer.author.gravatar(size=40)}}">
+        </a>
     </div>
-    <div class="user-answer-main">
-        <div class="user-answer-post">
-            <a href="{{ url_for('.post',id=answer.post.id)}}">
-                {{ answer.post.body }}
-            </a>
+    <div class="answer-content">
+        <div class="answer-author">
+            <a href="{{ url_for('.user',username=answer.author.username ) }}">{{ answer.author.username}}</a>回答了该问题•{{ moment(answer.timestamp).fromNow() }}
         </div>
-        <div class="search-answer-answer">
-            {{ answer.pure_body }}
+        <div class="index-answer-agree">
+            <div class="user-answer-agree-count">{{ answer.agree }}</div>
         </div>
-        <span><a href="{{ url_for('._re_post',id=answer.id)}}">查看更多</a></span>
+        <div class="answer-main">
+            <div class="user-answer-post">
+                <a href="{{ url_for('.post',id=answer.post.id)}}">
+                    <h4>{{ answer.post.body }}</h4>
+                </a>
+            </div>
+            <div class="search-answer-answer">
+                {{ answer.pure_body }}
+            </div>
+            <span><a href="{{ url_for('._re_post',id=answer.id)}}">查看更多</a></span>
+        </div>
     </div>
 </div>
 {% endfor %}

@@ -72,7 +72,7 @@ li.post,li.answer  {
     position: relative;
     margin-left: 0;
     outline: 0;
-    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 div.post-footer {
@@ -98,7 +98,7 @@ div.post-content {
     float:top;
 
 }
-div.post-author ,.answer-author {
+div.post-author {
     position: relative;
     font-weight: bold;
     float:left;
@@ -129,6 +129,12 @@ div.vote {
     position:absolute;
     display: block;
     margin-left: -48px;
+    width: 38px;
+    height: 73px;
+}
+div.vote-answer {
+    position:absolute;
+    display: block;
     width: 38px;
     height: 73px;
 }
@@ -443,8 +449,57 @@ a.post-link:hover {
     float:left;
     display:inline-block;
 }
+.answer-profile-thumbnail{
+    display: block;
+    width: 38px;
+    height: 38px;
+    float: left;
+    margin: 3px 0 0;
+}
+
+div.answer-content{
+    margin-left: 48px;
+}
+
+.answer-author {
+    font-weight: bold;
+    color: #BBB;
+}
+
+.index-answer-agree {
+    position: absolute;
+    left: -48px;
+    display: block;
+    color: #698ebf;
+    height: 24px;
+    line-height: 24px;
+    width: 38px;
+    margin-top: 30px;
+    margin-left: 2px;
+    border-radius: 3px;
+    border: 0;
+    background: #eff6fa;
+    font-weight: 700;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    overflow: hidden;
+    -webkit-text-size-adjust: none;
+}
 
 
+.long-button {
+    width:800px;
+    display: block;
+    font-size: 13px;
+    margin: 20px 0;
+    padding: 5px 1px;
+    color: #666 !important;
+    text-shadow: 0 1px 0 #fff;
+    background: linear-gradient(to bottom,#f8f8f9,#e6e6e8);
+    border: 1px solid #bbb;
+    box-shadow: 0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);
+}
 
 
 

@@ -34,6 +34,15 @@ class RegistrationForm(Form):
         if User.query.filter_by(username=field.data).first():
             raise  ValidationError('该用户名已被注册')
 
+class ChangeEmailForm(Form):
+    email = StringField('新邮箱地址:',validators=[Required(),Length(1,64),Email()])
+    password = PasswordField('密码:',validators=[Required()])
+    submit = SubmitField('提交')
+
+    def validate_email(self,field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('该邮箱地址已被注册')
+
 
 
 

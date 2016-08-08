@@ -1,0 +1,35 @@
+<meta charset="UTF-8">
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}知乎fake-账号设置{% endblock %}
+
+{% block page_content %}
+
+<div>
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#email" aria-controls="email" role="tab" data-toggle="tab">邮箱设置</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">账号密码</a></li>
+    <li role="presentation"><a href="#confirm" aria-controls="confirm" role="tab" data-toggle="tab">账户确认</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="email">
+        <div class="page-header">
+            <h4>当前邮箱:{{ current_user.email }}</h4>
+        </div>
+        <div class="col-md-4">
+            {{ wtf.quick_form(email_form) }}
+        </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="profile">更改密码</div>
+    <div role="tabpanel" class="tab-pane" id="confirm">账户确认</div>
+  </div>
+
+</div>
+
+{% endblock %}
