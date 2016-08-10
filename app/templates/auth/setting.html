@@ -13,7 +13,6 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#email" aria-controls="email" role="tab" data-toggle="tab">邮箱设置</a></li>
     <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">账号密码</a></li>
-    <li role="presentation"><a href="#confirm" aria-controls="confirm" role="tab" data-toggle="tab">账户确认</a></li>
   </ul>
 
   <!-- Tab panes -->
@@ -26,8 +25,14 @@
             {{ wtf.quick_form(email_form) }}
         </div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="profile">更改密码</div>
-    <div role="tabpanel" class="tab-pane" id="confirm">账户确认</div>
+    <div role="tabpanel" class="tab-pane" id="profile">
+        <div class="page-header">
+            <h4>更改密码</h4>
+        </div>
+        <div class="col-md-4">
+            {{ wtf.quick_form(password_form) }}
+        </div>
+    </div>
   </div>
 
 </div>

@@ -34,6 +34,7 @@ class RegistrationForm(Form):
         if User.query.filter_by(username=field.data).first():
             raise  ValidationError('该用户名已被注册')
 
+
 class ChangeEmailForm(Form):
     email = StringField('新邮箱地址:',validators=[Required(),Length(1,64),Email()])
     password = PasswordField('密码:',validators=[Required()])
@@ -43,7 +44,29 @@ class ChangeEmailForm(Form):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('该邮箱地址已被注册')
 
+class PasswordRequestForm(Form):
+    email = StringField('邮箱地址：',validators=[Required(),Length(1,64),Email()])
+    submit = SubmitField('重设密码')
 
+
+class ChangePasswordForm(Form):
+    old_password = PasswordField('旧密码：',validators=[Required()])
+    password = PasswordField('新密码：',validators=[Required(),EqualTo('password2',
+               message = '确认密码不一致')])
+    password2 = PasswordField('确认密码：',validators=[Required()])
+    submit = SubmitField('提交')
+
+
+class PasswordResetForm(Form):
+    email = StringField('邮箱地址：',validators=[Required(),Length(1,64),Email()])
+    password = PasswordField('新密码：',validators=[Required(),EqualTo('password2',
+               message='确认密码不一致')])
+    password2 = PasswordField('确认密码：',validators=[Required()])
+    submit = SubmitField('提交')
+
+    def validate_email(self,field):
+        if User.query.filter_by(email=field.data).first() is None:
+            raise ValidationError('未知的邮箱地址')
 
 
 

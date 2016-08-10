@@ -1,0 +1,6 @@
+亲爱的 {{ user.username }}，
+为了确认您的新邮箱地址，<a href="{{ url_for('auth.change_email', token=token, _external=True) }}">请点击该链接</a>。
+您也可以通过粘贴下方链接到浏览器地址栏来完成确认：
+{{ url_for('auth.change_email', token=token, _external=True) }}
+祝您玩的开心，
+Heath Kang

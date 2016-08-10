@@ -9,8 +9,34 @@ from . import auth
 from .. import db
 from ..models import User
 from ..email import send_email
-from .forms import LoginForm,RegistrationForm,ChangeEmailForm
+from .forms import LoginForm,RegistrationForm,ChangeEmailForm,PasswordRequestForm,ChangePasswordForm,PasswordResetForm
 from flask.ext.login import login_user,login_required,logout_user,current_user
+
+
+@auth.before_app_request
+def before_request():
+	if current_user.is_authenticated  \
+		and not current_user.confirmed \
+		and request.endpoint[:5] != 'auth.' \
+		and request.endpoint != 'static':
+	    return redirect(url_for('auth.unconfirmed'))
+
+
+@auth.route('/unconfirmed')
+def unconfirmed():
+	if current_user.is_anonymous or current_user.confirmed:
+		return redirect(url_for('main.index'))
+	return render_template('auth/unconfirmed.html')
+
+
+@auth.route('/confirm')
+@login_required
+def resend_confirmation():
+	token = current_user.generate_confirmation_token()
+	send_email(current_user.email,'确认您的账户',
+			   'auth/email/confirm',user=current_user,token=token)
+	flash('已给您的邮箱发送了一封新的确认邮件，请查收')
+	return redirect(url_for('main.index'))
 
 
 @auth.route('/register',methods=['GET','POST'])
@@ -58,6 +84,7 @@ def confirm(token):
 @login_required
 def setting():
     email_form = ChangeEmailForm()
+    password_form = ChangePasswordForm()
     if email_form.validate_on_submit():
         if current_user.verify_password(email_form.password.data):
             new_email = email_form.email.data
@@ -69,7 +96,16 @@ def setting():
             return redirect(url_for('main.index'))
         else:
             flash('邮箱地址或密码错误')
-    return render_template('auth/setting.html',email_form=email_form)
+
+    if password_form.validate_on_submit():
+        if current_user.verify_password(password_form.old_password.data):
+            current_user.password = password_form.password.data
+            db.session.add(current_user)
+            flash('您的密码已更改')
+            return redirect(url_for('main.index'))
+        else:
+            flash('无效的密码')
+    return render_template('auth/setting.html',email_form=email_form,password_form=password_form)
 
 @auth.route('/change-email/<token>')
 @login_required
@@ -79,6 +115,39 @@ def change_email(token):
 	else:
 		flash('无效的请求')
 	return redirect(url_for('main.index'))
+
+@auth.route('/reset',methods=['GET','POST'])
+def reset():
+	if not current_user.is_anonymous:
+		return redirect(url_for('main.index'))
+	form = PasswordRequestForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(email=form.email.data).first()
+		if user:
+			token = user.generate_reset_token()
+			send_email(user.email,'重置您的密码',
+					   'auth/email/reset_password',
+					   user=user,token=token,
+					   next=request.args.get('next'))
+		flash('已向您发送重设密码的邮件，请查收')
+		return redirect(url_for('auth.login'))
+	return render_template('auth/reset_password.html',form=form)
+
+@auth.route('/reset/<token>',methods=['GET','POST'])
+def password_reset(token):
+	if not current_user.is_anonymous:
+		return redirect(url_for('main.index'))
+	form = PasswordResetForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(email=form.email.data).first()
+		if user is None:
+			return redirect(url_for('main.index'))
+		if user.reset_password(token,form.password.data):
+			flash('您的密码已更新.')
+			return redirect(url_for('auth.login'))
+		else:
+			return redirect(url_for('main.index'))
+	return render_template('auth/reset_password.html',form=form)
 
 
 @auth.route('/logout')

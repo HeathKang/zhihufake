@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}fake{% endblock %}
+{% block title %}知乎fake - 登录{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
@@ -11,7 +11,7 @@
 <div class="col-md-4">
 	{{ wtf.quick_form(form) }}
 	<br>
-	<p><a href=#>忘记密码</a></p>
+	<p><a href="{{ url_for('auth.reset')}}">忘记密码</a></p>
 	<p>新用户?<a href="{{ url_for('auth.register')}}">点我注册</a></p>
 </div>
 {% endblock %}

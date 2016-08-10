@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}知乎fake - 请确认你的账户{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        亲爱的 {{ current_user.username }}!
+    </h1>
+    <h3>你目前还没有确认您的账号，</h3>
+    <p>
+        您必须确认您的账号才能体验网站的全部功能，
+        确认邮件已发至您的邮注册箱，请查收。
+    </p>
+    <p>
+        需要另一封确认邮件？
+        <a href="{{ url_for('auth.resend_confirmation') }}">请点击此处</a>
+    </p>
+</div>
+{% endblock %}
