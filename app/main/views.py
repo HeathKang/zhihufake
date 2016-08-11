@@ -9,7 +9,7 @@ from flask import render_template,abort,redirect,url_for,flash,request,current_a
 from flask.ext.login import login_required,current_user
 from . import main
 from .forms import PostForm,AnswerForm,EditProfileForm,EditProfileAdminForm
-from ..models import Post,User,Answer,Permission,Role,Comment,paginate1
+from ..models import Post,User,Answer,Permission,Role,Comment,paginate1,AnonymousUser
 from .. import db,moment
 from ..decorators import admin_required,permission_required
 

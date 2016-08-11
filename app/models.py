@@ -92,6 +92,21 @@ class Post(db.Model):
                         'i','li','ol','pre','strong','ul','h1','h2','h3','p','u']
         target.body_html = bleach.linkify(bleach.clean(markdown(value,output_format='html'),
                                                        tags=allowed_tags,strip=True))
+
+    @staticmethod
+    def generate_fake(count=100):
+        from random import seed, randint
+        import forgery_py
+
+        seed()
+        user_count = User.query.count()
+        for i in range(count):
+            u = User.query.offset(randint(0, user_count - 1)).first()
+            p = Post(body=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
+                     timestamp=forgery_py.date.date(True),
+                     author=u)
+            db.session.add(p)
+            db.session.commit()
     def is_answerd_by(self,user):
         return self.usersss.filter_by(id=user.id).first() is not None
 
@@ -125,6 +140,25 @@ class Answer(db.Model):
         target.pure_body = bleach.linkify(bleach.clean(markdown(value,output_format='html'),
                                                         tags=pure_allowed_tags,strip=True))
 
+    @staticmethod
+    def generate_fake(count=100):
+        from random import seed, randint
+        import forgery_py
+
+        seed()
+        post_count = Post.query.count()
+        user_count = User.query.count()
+        for i in range(count):
+            p = Post.query.offset(randint(0, post_count - 1)).first()
+            u = User.query.offset(randint(0, user_count - 1)).first()
+            a = Answer(body=forgery_py.lorem_ipsum.sentences(randint(1, 10)),
+                     timestamp=forgery_py.date.date(True),
+                     agree = randint(1,100),
+                     post=p,
+                     author=u)
+            db.session.add(a)
+            db.session.commit()
+
     def is_agreed_by(self,user):
         return self.userss.filter_by(id=user.id).first() is not None
 
@@ -138,6 +172,24 @@ class Comment(db.Model):
     disabled = db.Column(db.Boolean)
     author_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     answer_id = db.Column(db.Integer,db.ForeignKey('answers.id'))
+
+    @staticmethod
+    def generate_fake(count=100):
+        from random import seed, randint
+        import forgery_py
+
+        seed()
+        answer_count = Answer.query.count()
+        user_count = User.query.count()
+        for i in range(count):
+            a = Answer.query.offset(randint(0, answer_count - 1)).first()
+            u = User.query.offset(randint(0, user_count - 1)).first()
+            c = Comment(body=forgery_py.lorem_ipsum.sentences(randint(1, 3)),
+                     timestamp=forgery_py.date.date(True),
+                     answer=a,
+                     author=u)
+            db.session.add(c)
+            db.session.commit()
 
 
 
@@ -191,6 +243,27 @@ class User(UserMixin,db.Model):
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = hashlib.md5(
             self.email.encode('utf-8')).hexdigest()
+
+    @staticmethod
+    def generate_fake(count=100):
+        from sqlalchemy.exc import IntegrityError
+        from random import seed,randint
+        import forgery_py
+
+        seed()
+        for i in range(count):
+            u = User(email=forgery_py.internet.email_address(),
+                     username=forgery_py.internet.user_name(True),
+                     password=forgery_py.lorem_ipsum.word(),
+                     confirmed=True,
+                     angrees=randint(100,200),
+                     location=forgery_py.address.city(),
+                     about_me=forgery_py.lorem_ipsum.sentence())
+            db.session.add(u)
+            try:
+                db.session.commit()
+            except IntegrityError:
+                db.session.rollback()
 
     @property
     def password(self):

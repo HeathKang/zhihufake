@@ -123,10 +123,20 @@
     $("a.up").each(function(){
         $(this).bind("click",function(){
             var id = $(this).attr('id');
+            var button_class = $("#button-up-" + id).attr("class");
+            var span_class = $("#span-up-" + id).attr("class");
             $.getJSON('/_add_agree',
                 {answer_id:id},
                 function(json) {
                     $("#agree-count-" + id ).text(json.agree_count);
+                    if($("#button-up-" + id).hasClass("button-uped")){
+                        $("#button-up-" + id).removeClass("button-uped");
+                        $("#span-up-" + id).removeClass("vote-uped");
+                        }else{
+                        $("#button-up-" + id).addClass("button-uped");
+                        $("#span-up-" + id).addClass("vote-uped");
+                    };
+
             });
         });
     });
