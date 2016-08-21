@@ -5,12 +5,13 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 from flask import render_template,redirect,url_for,request,flash
+from flask.ext.login import login_user,login_required,logout_user,current_user
+
 from . import auth
 from .. import db
 from ..models import User
 from ..email import send_email
 from .forms import LoginForm,RegistrationForm,ChangeEmailForm,PasswordRequestForm,ChangePasswordForm,PasswordResetForm
-from flask.ext.login import login_user,login_required,logout_user,current_user
 
 
 @auth.before_app_request
@@ -80,6 +81,7 @@ def confirm(token):
         flash('确认链接不可用或已经过期！')
     return redirect(url_for('main.index'))
 
+
 @auth.route('/setting',methods=['GET','POST'])
 @login_required
 def setting():
@@ -96,7 +98,6 @@ def setting():
             return redirect(url_for('main.index'))
         else:
             flash('邮箱地址或密码错误')
-
     if password_form.validate_on_submit():
         if current_user.verify_password(password_form.old_password.data):
             current_user.password = password_form.password.data
@@ -107,6 +108,7 @@ def setting():
             flash('无效的密码')
     return render_template('auth/setting.html',email_form=email_form,password_form=password_form)
 
+
 @auth.route('/change-email/<token>')
 @login_required
 def change_email(token):
@@ -115,6 +117,7 @@ def change_email(token):
 	else:
 		flash('无效的请求')
 	return redirect(url_for('main.index'))
+
 
 @auth.route('/reset',methods=['GET','POST'])
 def reset():
@@ -132,6 +135,7 @@ def reset():
 		flash('已向您发送重设密码的邮件，请查收')
 		return redirect(url_for('auth.login'))
 	return render_template('auth/reset_password.html',form=form)
+
 
 @auth.route('/reset/<token>',methods=['GET','POST'])
 def password_reset(token):

@@ -30,6 +30,7 @@
                         <div class="search-answer-answer">
                             {{ answer.pure_body }}
                         </div>
+                        <span><a href="{{ url_for('._re_post',id=answer.id)}}">查看更多</a></span>
                     </div>
                 </div>
           {% endfor %}
@@ -79,15 +80,6 @@
 
 {{ super() }}
 
-<script type=text/javascript>
-$(document).ready(function(){
-    $(".search-answer-answer").each(function()
-        { var maxwidth=120;
-         if($(this).text().length>maxwidth){
-         $(this).text($(this).text().substring(0,maxwidth));
-        $(this).html($(this).html()+'...');
-        }
-    });
- });
-</script>
+<script type=text/javascript src="{{ url_for('static',filename='search.js')}}"></script>
+
 {% endblock %}

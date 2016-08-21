@@ -26,9 +26,9 @@ class Config:
     FLASKY_ADMIN = '347832757@qq.com'
 
     FLASKY_FOLLOWERS_PER_PAGE = 5
-    FLASKY_POSTS_PER_PAGE = 2
-    FLASKY_ANSWERS_PER_PAGE = 2
-    WTF_CSRF_ENABLED = False
+    FLASKY_POSTS_PER_PAGE = 5
+    FLASKY_ANSWERS_PER_PAGE = 5
+    WTF_CSRF_ENABLED = True
 
     @staticmethod
     def init_app(app):
@@ -41,8 +41,17 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
+
+
+class TestingConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'data-test.sqlite')
+    WTF_CSRF_ENABLED = False
+
+
 config = {
     'development': DevelopmentConfig,
-
+    'testing': TestingConfig,
     'default': DevelopmentConfig,
 }

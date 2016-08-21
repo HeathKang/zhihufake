@@ -3,9 +3,9 @@
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
+
 import hashlib
 from flask import request,current_app
-from . import db,login_manager
 from flask.ext.login import UserMixin,AnonymousUserMixin
 from werkzeug.security import generate_password_hash,check_password_hash
 from datetime import datetime
@@ -16,18 +16,24 @@ import flask_whooshalchemyplus
 from jieba.analyse import ChineseAnalyzer
 from flask_sqlalchemy import Pagination
 
+from . import db,login_manager
+
+
 agrees = db.Table('agrees',
                   db.Column('users_id',db.Integer,db.ForeignKey('users.id')),
                   db.Column('answers_id',db.Integer,db.ForeignKey('answers.id')))
 answerd = db.Table('answerd',
                    db.Column('users_id',db.Integer,db.ForeignKey('users.id')),
                    db.Column('posts_id',db.Integer,db.ForeignKey('posts.id')))
+
+
 class Permission:
     FOLLOW = 0x01
     COMMENT = 0x02
     WRITE_ARTICLES = 0x04
     MODERATE_COMMENTS =0x08
     ADMINISTER = 0x80
+
 
 class Follow(db.Model):
     _tablename_ = 'follows'
@@ -38,12 +44,10 @@ class Follow(db.Model):
     timestamp = db.Column(db.DateTime,default=datetime.utcnow)
 
 
-
 class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer,primary_key=True)
     name = db.Column(db.String(64),unique=True)
-
     default = db.Column(db.Boolean,default=False,index=True)
     permissions = db.Column(db.Integer)
     users = db.relationship('User',backref='role',lazy='dynamic')
@@ -73,7 +77,6 @@ class Role(db.Model):
         db.session.commit()
 
 
-
 class Post(db.Model):
     __searchable__ = ['body']
     __analyzer__ = ChineseAnalyzer()
@@ -83,7 +86,6 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime,index=True,default=datetime.utcnow)
     author_id = db.Column(db.Integer,db.ForeignKey('users.id'))
     body_html = db.Column(db.Text)
-
     answers = db.relationship('Answer',backref='post',lazy='dynamic')
 
     @staticmethod
@@ -113,6 +115,7 @@ class Post(db.Model):
 
 db.event.listen(Post.body,'set',Post.on_changed_body)
 
+
 class Answer(db.Model):
     __searchable__ = ['body']
     __analyzer__ = ChineseAnalyzer()
@@ -127,7 +130,6 @@ class Answer(db.Model):
     post_id = db.Column(db.Integer,db.ForeignKey('posts.id'))
     agree = db.Column(db.Integer,default=0)
     disagree = db.Column(db.Integer,default=0)
-
     comments = db.relationship('Comment',backref='answer',lazy='dynamic')
 
     @staticmethod
@@ -162,7 +164,9 @@ class Answer(db.Model):
     def is_agreed_by(self,user):
         return self.userss.filter_by(id=user.id).first() is not None
 
+
 db.event.listen(Answer.body,'set',Answer.on_changed_body)
+
 
 class Comment(db.Model):
     __tablename__ = 'comments'
@@ -190,9 +194,6 @@ class Comment(db.Model):
                      author=u)
             db.session.add(c)
             db.session.commit()
-
-
-
 
 
 class User(UserMixin,db.Model):
@@ -232,14 +233,13 @@ class User(UserMixin,db.Model):
                               backref=db.backref('usersss',lazy='dynamic'),
                               lazy='dynamic')
 
-
     def __init__(self,**kwargs):
         super(User,self).__init__(**kwargs)
         if self.role is None:
             if self.email == current_app.config['FLASKY_ADMIN']:
-                self.role = Role.query.filter_by(permission=oxff).first()#赋予管理员角色
+                self.role = Role.query.filter_by(permission=oxff).first()#give admin role
             if self.role is None:
-                self.role = Role.query.filter_by(default=True).first() #赋予默认角色
+                self.role = Role.query.filter_by(default=True).first() #give default role
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = hashlib.md5(
             self.email.encode('utf-8')).hexdigest()
@@ -267,7 +267,7 @@ class User(UserMixin,db.Model):
 
     @property
     def password(self):
-        raise AttributeError('password is not a readable attribute')
+        raise AttributeError('密码值不可读！')
 
     @property
     def followed_posts(self):
@@ -299,7 +299,6 @@ class User(UserMixin,db.Model):
     def generate_email_change_token(self, new_email, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'change_email': self.id, 'new_email': new_email})
-
 
     def confirm(self,token):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -378,17 +377,14 @@ class User(UserMixin,db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url,hash=hash,size=size,default=default,rating=rating
         )
+
     @property
     def followed_answers(self):
         return Answer.query.join(Follow,Follow.followed_id == Answer.author_id).filter(Follow.follower_id==self.id)
 
 
-
-
-
-
-
 class AnonymousUser(AnonymousUserMixin):
+
     def can(self,permissions):
         return False
 
@@ -403,20 +399,19 @@ login_manager.anonymous_user = AnonymousUser
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
 def paginate1(query, page, per_page=20, error_out=True):
     if error_out and page < 1:
         abort(404)
     items = query.limit(per_page).offset((page - 1) * per_page).all()
     if not items and page != 1 and error_out:
         abort(404)
-
     # No need to count if we're on the first page and there are fewer
     # items than we expected.
     if page == 1 and len(items) < per_page:
         total = len(items)
     else:
         total = query.order_by(None).count()
-
     return Pagination(query, page, per_page, total, items)
 
 
