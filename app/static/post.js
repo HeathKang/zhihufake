@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $("a.comment").each(function(){
-      $(this).bind("click",function(){
+      $(this).on("click",function(){
         var id = $(this).attr('id');
         $.ajax({
             url: '/_comment',
