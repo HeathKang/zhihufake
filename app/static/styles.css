@@ -74,6 +74,10 @@ li.post,li.answer  {
     outline: 0;
     border-bottom: 1px solid #e0e0e0;
 }
+div.post-body {
+    width:750px;
+
+}
 
 div.post-footer {
     width:750px;
@@ -445,6 +449,10 @@ li.searchResult1  {
     font-weight: 700;
     font-size: 14px;
     outline: 0;
+    width:500px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 .user-answer-answer{
@@ -541,6 +549,14 @@ div.answer-content{
     border: 1px solid #bbb;
     box-shadow: 0 1px 0 #fff inset,0 1px 0 rgba(0,0,0,.1);
 }
+
+.search-li {
+    width:599px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
 
 
 

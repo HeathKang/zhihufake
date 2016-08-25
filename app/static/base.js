@@ -36,6 +36,7 @@ $("#searchText").keyup(function(){
                     var url = json.url;
                     var answers_urls = json.answers_urls;
                     var users_urls = json.user_urls;
+                    var search_all_url = json.search_all;
                     $("ul#searchList").empty();
                     if(url == 'None'){
                         $("ul#searchList").append("<li class='list-group-item list-group-item-warning'>" + contents + "</a></li>" );
@@ -44,17 +45,18 @@ $("#searchText").keyup(function(){
                         $("ul#searchList").append("<li class='list-group-item list-group-item-info'>问题</li>" );
                         for (var i=0;i<contents.length;i++)
                         {
-                           $("ul#searchList").append("<li class='list-group-item'><a  href='" + url[i] + "'>" + contents[i] + "</a></li>" );
+                           $("ul#searchList").append("<li class='list-group-item search-li'><a  href='" + url[i] + "'>" + contents[i] + "</a></li>" );
                         };
                         for (var j=0;j<answer.length;j++)
                         {
-                           $("ul#searchList").append("<li class='list-group-item'><a  href='" + answers_urls[j] + "'>" + answer[j] + "</a></li>" );
+                           $("ul#searchList").append("<li class='list-group-item search-li'><a  href='" + answers_urls[j] + "'>" + answer[j] + "</a></li>" );
                         };
                            $("ul#searchList").append("<li class='list-group-item list-group-item-info'>用户</li>" );
                          for (var k=0;k<user.length;k++)
                         {
                            $("ul#searchList").append("<li class='list-group-item'><a  href='" + users_urls[k] + "'>" + user[k] + "</a></li>" );
                         };
+                           $("ul#searchList").append("<li class='list-group-item list-group-item-info'><a  href='" + search_all_url +"'>查看全部结果 <span class='glyphicon glyphicon-forward'></span></a></li>" );
 
                     }
 

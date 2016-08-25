@@ -390,13 +390,14 @@ def _search():
                     'user':user2,
                     'user_urls':user_urls,
                     'answer':answer2,
-                    'answers_urls':answers_urls
+                    'answers_urls':answers_urls,
+                    'search_all':url_for('main._search_all',search_key=key,_external=True),
                     })
 
 
 @main.route('/_search_all',methods=['GET','POST'])
 def _search_all():
-    key = request.form.get("search_key")
+    key = request.form.get("search_key") or request.args.get("search_key")
     posts = Post.query.whoosh_search(key).all()
     users = User.query.whoosh_search(key).all()
     answers = Answer.query.whoosh_search(key).all()
