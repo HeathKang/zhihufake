@@ -237,12 +237,13 @@ class User(UserMixin,db.Model):
         super(User,self).__init__(**kwargs)
         if self.role is None:
             if self.email == current_app.config['FLASKY_ADMIN']:
-                self.role = Role.query.filter_by(permission=oxff).first()#give admin role
+                self.role = Role.query.filter_by(permission=0xff).first()#give admin role
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first() #give default role
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = hashlib.md5(
             self.email.encode('utf-8')).hexdigest()
+        self.follow(self)
 
     @staticmethod
     def generate_fake(count=100):
@@ -264,6 +265,14 @@ class User(UserMixin,db.Model):
                 db.session.commit()
             except IntegrityError:
                 db.session.rollback()
+
+    @staticmethod
+    def add_self_follows():
+        for user in User.query.all():
+            if not user.is_following(user):
+                user.follow(user)
+                db.session.add(user)
+                db.session.commit()
 
     @property
     def password(self):

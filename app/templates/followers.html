@@ -61,11 +61,11 @@
                 <a class="edit" href="#">提问{{ user.posts.count() }}</a>
                 <a class="edit" href="#">回答{{ user.answers.count() }}</a>
                 <a href="{{ url_for('.followed',username=user.username )}}" class="edit followed">
-                    <span>关注了<strong id="followed">{{ user.followed.count()}}</strong>人</span>
+                    <span>关注了<strong id="followed">{{ user.followed.count() - 1}}</strong>人</span>
                 </a>
                 <a href="{{ url_for('.followers',username=user.username )}}" class="edit follower">
                     <span>关注者
-                        <strong id="follower">{{ user.followers.count()}}</strong>人
+                        <strong id="follower">{{ user.followers.count() - 1}}</strong>人
                     </span>
                 </a>
             </div>
@@ -74,7 +74,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">
                     <a class="post-link" href="{{ url_for('.user',username=user.username)}}"><strong>{{ user.username }}</strong></a>
-                    关注者<span>{{ user.followers.count()}}</span>人
+                    关注者<span>{{ user.followers.count() - 1 }}</span>人
                 </h3>
             </div>
             <div class="panel-body">
@@ -86,10 +86,10 @@
                         </a>
 
                         <a class="follow-right edit" href="{{ url_for('.followed',username=follow.username )}}">
-                            <strong>关注了</strong> <span>{{follow.followed.count()}}</span>人
+                            <strong>关注了</strong> <span>{{follow.followed.count() - 1}}</span>人
                         </a>
                         <a class="follow-right edit" href="{{ url_for('.followers',username=follow.username )}}">
-                            <strong>关注者</strong> <span>{{follow.followers.count()}}</span>人
+                            <strong>关注者</strong> <span>{{follow.followers.count() - 1}}</span>人
                         </a>
 
                     </div>

@@ -319,7 +319,7 @@ def followers(username):
     pagination = user.followers.paginate(
         page,per_page=current_app.config['FLASKY_FOLLOWERS_PER_PAGE'],error_out=False
     )
-    followers =[item.follower for item in pagination.items ]
+    followers =[item.follower for item in pagination.items if item.follower is not user]
     return render_template('followers.html',user=user,pagination=pagination,followers=followers)
 
 
@@ -333,7 +333,7 @@ def followed(username):
     pagination = user.followed.paginate(
         page,per_page=current_app.config['FLASKY_FOLLOWERS_PER_PAGE'],error_out=False
     )
-    followers =[item.followed for item in pagination.items ]
+    followers =[item.followed for item in pagination.items if item.followed is not user]
     return render_template('followed.html',user=user,pagination=pagination,followers=followers)
 
 

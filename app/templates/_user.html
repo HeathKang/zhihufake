@@ -59,11 +59,11 @@
                 <a class="edit" href="{{url_for('.user_questions',username=user.username)}}">提问{{ user.posts.count() }}</a>
                 <a class="edit" href="{{url_for('.user_answers',username=user.username)}}">回答{{ user.answers.count() }}</a>
                 <a href="{{ url_for('.followed',username=user.username )}}" class="edit followed">
-                    <span>关注了<strong id="followed">{{ user.followed.count()}}</strong>人</span>
+                    <span>关注了<strong id="followed">{{ user.followed.count() - 1 }}</strong>人</span>
                 </a>
                 <a href="{{ url_for('.followers',username=user.username )}}" class="edit follower">
                     <span>关注者
-                        <strong id="follower">{{ user.followers.count()}}</strong>人
+                        <strong id="follower">{{ user.followers.count() - 1}}</strong>人
                     </span>
                 </a>
             </div>
