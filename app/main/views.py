@@ -434,6 +434,7 @@ def edit_profile():
         current_user.gender = form.gender.data
         current_user.about_me = form.about_me.data
         db.session.add(current_user)
+        db.session.commit()
         flash('您的资料已更新')
         return redirect(url_for('.user',username=current_user.username))
     form.location.data = current_user.location
