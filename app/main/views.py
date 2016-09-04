@@ -493,3 +493,8 @@ def edit_profile_admin(id):
 @main.route('/test',methods=['GET','POST'])
 def test():
     return render_template('test.html')
+
+
+@main.route('/blessing',methods=['GET','POST'])
+def birth():
+    return render_template('birth.html')
