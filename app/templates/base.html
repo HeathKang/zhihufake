@@ -12,58 +12,50 @@
 
 {% block navbar %}
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle"
-            data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">知乎fake</a>
-        </div>
-        <form class="navbar-form navbar-left" role="search" method="post" action='/_search_all' onsubmit="return checksearchForm(this)">
-            <div class="input-group">
-                <input name="search_key" id="searchText" data-toggle="dropdown" type="text" class="form-control" placeholder="搜索你感兴趣的内容..." >
-                    <ul id="searchList" class="hidden dropdown-menu list-group" >
-                    </ul>
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" id="search-button"></span></button>
-                </span>
+    <div class="container ">
+            <div class="navbar-header  ">
+                <button type="button" class="navbar-toggle"
+                data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">知乎fake</a>
             </div>
-        </form>
+            <form class="navbar-form navbar-left " role="search" method="post" action='/_search_all' onsubmit="return checksearchForm(this)">
+                <div class="input-group">
+                    <input name="search_key" id="searchText" data-toggle="dropdown" type="text" class="form-control" placeholder="搜索你感兴趣的内容..." >
+                        <ul id="searchList" class="hidden dropdown-menu list-group" >
+                        </ul>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" id="search-button"></span></button>
+                    </span>
+                </div>
+            </form>
 
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">首页</a></li>
-                <li><a href="{{ url_for('main.all') }}">全部</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                            <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary btn-lg btn-default navbar-btn add-question" data-toggle="modal" data-target="#myModal">提问</button>
-
-                <!-- Modal -->
-
-
-                {% if current_user.is_authenticated %}
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ current_user.gravatar(size=18)}}">{{ current_user.username }}<b class="caret"></b></a>
-                    <ul id="dropdown-index" class="dropdown-menu">
-                        <li><a href="{{ url_for('main.user',username=current_user.username )}}"><span class="glyphicon glyphicon-user">  我的主页</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href=#><span class="glyphicon glyphicon-envelope">  私信</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{{ url_for('auth.setting')}}"><span class="glyphicon glyphicon-cog">  设置</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="{{ url_for('auth.logout')}}"><span class="glyphicon glyphicon-off">  退出</a></li>
-                    </ul>
-                </li>
-                {% else %}
-                <li><a href="{{ url_for('auth.login') }}">登录</a></li>
-                {% endif %}
-            </ul>
-        </div>
-
+            <div class="navbar-collapse collapse  ">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('main.index') }}">首页</a></li>
+                    <li><a href="{{ url_for('main.all') }}">全部</a></li>
+                    <button type="button" class="btn btn-primary btn-lg btn-default navbar-btn add-question " data-toggle="modal" data-target="#myModal">提问</button>
+                    {% if current_user.is_authenticated %}
+                    <li class="dropdown ">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ current_user.gravatar(size=18)}}">{{ current_user.username }}<b class="caret"></b></a>
+                        <ul id="dropdown-index" class="dropdown-menu">
+                            <li><a href="{{ url_for('main.user',username=current_user.username )}}"><span class="glyphicon glyphicon-user">  我的主页</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href=#><span class="glyphicon glyphicon-envelope">  私信</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ url_for('auth.setting')}}"><span class="glyphicon glyphicon-cog">  设置</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ url_for('auth.logout')}}"><span class="glyphicon glyphicon-off">  退出</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li><a href="{{ url_for('auth.login') }}">登录</a></li>
+                    {% endif %}
+                </ul>
+            </div>
     </div>
 </div>
 

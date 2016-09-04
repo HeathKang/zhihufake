@@ -6,37 +6,41 @@
 {% block title %}知乎fake{% endblock %}
 
 {% block page_content %}
-<div class="top-title-left">
-	<span class="glyphicon glyphicon-list-alt"></span>最新动态
+<div class="row">
+	<div class="main-content col-md-9 col-sm-12">
+		<div class="top-title-left">
+			<span class="glyphicon glyphicon-list-alt"></span>最新动态
 
-</div>
-	<ul class="nav nav-tabs" role="tablist" style="width:800px">
-    <li role="presentation" class="{% if show_post %} active {% endif %}"><a style="padding:5px 10px;" href="{{ url_for('.show_post')}}">问题</a></li>
-    <li role="presentation" class="{% if not show_post %} active {% endif %}"><a style="padding:5px 10px;" href="{{ url_for('.show_answer')}}">答案</a></li>
-
-	</ul>
-<div class="tab-content">
-	<div class="followed_posts {% if show_post %} active {% else %} hide {% endif %}">
-		<div class="post">
-			{% include '_posts.html' %}
 		</div>
-		<button id="btn-questions" class="btn btn-default long-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
-		{% if pagination %}
-		<div class="pagination">
-			{{ macros.pagination_widget(pagination,'.index') }}
+		<ul class="nav nav-tabs " role="tablist" style="..." >
+			<li role="presentation" class="{% if show_post %} active {% endif %}"><a  style="..."  href="{{ url_for('.show_post')}}">问题</a></li>
+			<li role="presentation" class="{% if not show_post %} active {% endif %}"><a style="..." href="{{ url_for('.show_answer')}}">答案</a></li>
+		</ul>
+		<div class="tab-content">
+			<div class="followed_posts {% if show_post %} active {% else %} hide {% endif %}">
+				<div class="post">
+					{% include '_posts.html' %}
+				</div>
+				<button id="btn-questions" class="btn btn-default long-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
+				{% if pagination %}
+				<div class="pagination">
+					{{ macros.pagination_widget(pagination,'.index') }}
+				</div>
+			</div>
+			<div class="followed_answers {% if not show_post %} active {% else %} hide {% endif %}">
+				<div class="answer">
+					{% include '_index_answers.html'%}
+				</div>
+				<button id="btn-answers" class="btn btn-default long-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
+				{% if pagination %}
+				<div class="pagination">
+					{{ macros.pagination_widget(pagination,'.index') }}
+				</div>
+				{% endif %}
+			</div>
 		</div>
 	</div>
-	<div class="followed_answers {% if not show_post %} active {% else %} hide {% endif %}">
-		<div class="answer">
-			{% include '_index_answers.html'%}
-		</div>
-		<button id="btn-answers" class="btn btn-default long-button" data-style="expand-left"><span class="ladda-label">加载更多</span></button>
-		{% if pagination %}
-		<div class="pagination">
-			{{ macros.pagination_widget(pagination,'.index') }}
-		</div>
-		{% endif %}
-	</div>
+	<div class="side-content col-md-3 col-sm-0 "></div>
 </div>
 
 {% endif %}

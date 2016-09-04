@@ -1,0 +1,29 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{url_for('static',filename='zhihu.icon')}}" type="image/vnd.microsoft.icon">
+<link rel="icon" href="{{ url_for('static', filename = 'zhihu.ico') }}" type="image/vnd.microsoft.icon">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles.css')}}">
+
+{% endblock %}
+
+{% block content %}
+<div class="container" style="width:600px">
+    <div class="row">
+        <div class="col-md-10 col-xs-12">
+            <p>送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送</p>
+        </div>
+        <div class="col-md-2 col-xs-12">
+            <p>送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送送</p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

@@ -155,6 +155,7 @@ def password_reset(token):
 
 
 @auth.route('/logout')
+@login_required
 def logout():
     logout_user()
     flash('您已经登出！')

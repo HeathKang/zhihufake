@@ -25,6 +25,7 @@ body {
     color:#fff;
 }
 
+
 span#search-button {
     position: relative;
     top: 1px;
@@ -50,6 +51,9 @@ span#search-button {
     color: #666;
     font-weight: 700;
 }
+
+
+
 .glyphicon-list-alt {
     width: 16px;
     height: 16px;
@@ -64,14 +68,12 @@ ul.posts ,ul.answers {
 }
 
 div.pagination {
-     width: 100%;
      text-align: left;
      padding: 0px;
      margin-left: 20%;
  }
 
 li.post,li.answer  {
-    width:800px;
     padding: 10px 0;
     position: relative;
     margin-left: 0;
@@ -79,12 +81,11 @@ li.post,li.answer  {
     border-bottom: 1px solid #e0e0e0;
 }
 div.post-body {
-    width:750px;
 
 }
 
 div.post-footer {
-    width:750px;
+
     padding: 10px 0;
     position: relative;
     margin-left: 0;
@@ -542,7 +543,7 @@ div.answer-content{
 
 
 .long-button {
-    width:800px;
+    width:100%;
     display: block;
     font-size: 13px;
     margin: 20px 0;
