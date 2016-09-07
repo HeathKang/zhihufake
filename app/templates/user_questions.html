@@ -2,8 +2,8 @@
 {% import "_macros.html" as macros %}
 
 {% block page_content %}
-<div class="main-wrap">
-    <div class="main-content">
+<div class="row">
+    <div class="main-content col-md-8 col-sm-12">
         {% include "_user.html"%}
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -15,7 +15,7 @@
                         <div class="user-post-main">
                             <div class="user-answer-post">
                                 <a href="{{ url_for('.post',id=post.id)}}">
-                                    {{ post.body }}
+                                    {{ post.body | truncate(80,true) }}
                                 </a>
                             </div>
                             <div class="user-answer-answer">创建于{{ moment(post.timestamp).fromNow() }} 共有{{ post.answers.count() }}条回答</div>
@@ -32,7 +32,7 @@
     </div>
 
 
-    <div class="main-barside">
+    <div class="main-barside col-md-4 col-sm-0">
 
     </div>
 

@@ -284,10 +284,6 @@ div.user-profile-header{
     padding-left: 10px;
 }
 
-.edit{
-    color: #666;
-    margin-top:5px;
-}
 
 div.user-profile-word {
     overflow: hidden;
@@ -349,13 +345,8 @@ a.follower,a.followed {
     float:right;
 }
 
-div#footer {
-    padding-left:0px;
-    padding-top:0px;
 
-}
 div.panel-footer .edit{
-    padding: 12px 12px;
     font-weight: 700;
     color: #666;
     text-align: center;
@@ -416,7 +407,6 @@ li.searchResult1  {
     position: relative;
     padding: 12px 0;
     border-top: 1px dotted #EEE;
-    width:700px;
 }
 .user-answer-agree {
     float: left;
@@ -450,24 +440,9 @@ li.searchResult1  {
     margin-left: 60px;
 }
 
-.user-answer-post{
-    font-weight: 700;
-    font-size: 14px;
-    outline: 0;
-    width:500px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
 
-.user-answer-answer{
-    margin: 0;
-    padding: 0;
-    width:500px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
+
+
 
 
 a:hover {

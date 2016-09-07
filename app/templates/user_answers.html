@@ -2,10 +2,10 @@
 {% import "_macros.html" as macros %}
 
 {% block page_content %}
-<div class="main-wrap">
-    <div class="main-content">
+<div class="row">
+    <div class="main-content col-md-8 col-sm-12">
         {% include "_user.html"%}
-        </div>
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">回答</h3>
@@ -20,11 +20,11 @@
                         <div class="user-answer-main">
                             <div class="user-answer-post">
                                 <a href="{{ url_for('._re_post',id=answer.id)}}">
-                                    {{ answer.post.body }}
+                                    {{ answer.post.body | truncate(80,true) }}
                                 </a>
                             </div>
                             <div class="user-answer-answer">
-                                    {{ answer.pure_body }}
+                                    {{ answer.pure_body | truncate(40,true) }}
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
     </div>
 
 
-    <div class="main-barside">
+    <div class="main-barside col-md-4 col-sm-0 ">
 
     </div>
 

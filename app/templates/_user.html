@@ -53,18 +53,20 @@
                 </div>
             </div>
             <div class="panel-footer" id="footer">
-                <a class="edit user-html" href="{{ url_for('main.user',username=user.username)}}">
-                    <span class="edit user-active glyphicon glyphicon-home"> </span>
-                </a>
-                <a class="edit" href="{{url_for('.user_questions',username=user.username)}}">提问{{ user.posts.count() }}</a>
-                <a class="edit" href="{{url_for('.user_answers',username=user.username)}}">回答{{ user.answers.count() }}</a>
-                <a href="{{ url_for('.followed',username=user.username )}}" class="edit followed">
-                    <span>关注了<strong id="followed">{{ user.followed.count() - 1 }}</strong>人</span>
-                </a>
-                <a href="{{ url_for('.followers',username=user.username )}}" class="edit follower">
-                    <span>关注者
-                        <strong id="follower">{{ user.followers.count() - 1}}</strong>人
-                    </span>
-                </a>
+                <div class="row">
+                    <a class="edit user-html col-md-1 " href="{{ url_for('main.user',username=user.username)}}">
+                        <span class="edit user-active glyphicon glyphicon-home"> </span>
+                    </a>
+                    <a class="edit col-md-2" href="{{url_for('.user_questions',username=user.username)}}">提问{{ user.posts.count() }}</a>
+                    <a class="edit col-md-2" href="{{url_for('.user_answers',username=user.username)}}">回答{{ user.answers.count() }}</a>
+                    <a href="{{ url_for('.followed',username=user.username )}}" class="edit followed col-md-2 ">
+                        <span>关注了<strong id="followed">{{ user.followed.count() - 1 }}</strong>人</span>
+                    </a>
+                    <a href="{{ url_for('.followers',username=user.username )}}" class="edit follower col-md-2 col-md-offset-3">
+                        <span>关注者
+                            <strong id="follower">{{ user.followers.count() - 1}}</strong>人
+                        </span>
+                    </a>
+                </div>
             </div>
         </div>
