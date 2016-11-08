@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')  #fix unicode problem
+
 
 
 from flask import render_template,abort,redirect,url_for,flash,request,current_app,make_response,jsonify,get_template_attribute

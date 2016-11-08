@@ -1,6 +1,4 @@
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+
 
 from flask import Blueprint
 

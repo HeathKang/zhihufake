@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+
 
 from flask import render_template,redirect,url_for,request,flash
 from flask.ext.login import login_user,login_required,logout_user,current_user
